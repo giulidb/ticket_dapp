@@ -22010,7 +22010,7 @@ module.exports = {
 					"type": "uint256"
 				}
 			],
-			"name": "Deposit",
+			"name": "Payment",
 			"type": "event"
 		},
 		{
@@ -22053,7 +22053,7 @@ module.exports = {
 			"type": "event"
 		}
 	],
-	"unlinked_binary": "0x606060405234610000575b5b60008054600160a060020a03191633600160a060020a03161790555b60008054600160a060020a03191633600160a060020a03161790555b5b610195806100536000396000f300606060405263ffffffff60e060020a60003504166383197ef081146100455780638da5cb5b14610054578063d0e30db01461007d578063f8b2cb4f14610087575b610000565b34610000576100526100b2565b005b34610000576100616100de565b60408051600160a060020a039092168252519081900360200190f35b6100526100ed565b005b34610000576100a0600160a060020a036004351661014a565b60408051918252519081900360200190f35b60005433600160a060020a039081169116146100cd57610000565b600054600160a060020a0316ff5b5b565b600054600160a060020a031681565b600160a060020a03331660008181526001602090815260409182902080543490810190915582519384529083015280517fe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c9281900390910190a15b565b600160a060020a0381166000908152600160205260409020545b9190505600a165627a7a72305820e3c6add68b067ae7277858c1661857a978706b6025e223e5a3aed80297e6626c0029",
+	"unlinked_binary": "0x606060405234610000575b5b60008054600160a060020a03191633600160a060020a03161790555b60008054600160a060020a03191633600160a060020a03161790555b5b610195806100536000396000f300606060405263ffffffff60e060020a60003504166383197ef081146100455780638da5cb5b14610054578063d0e30db01461007d578063f8b2cb4f14610087575b610000565b34610000576100526100b2565b005b34610000576100616100de565b60408051600160a060020a039092168252519081900360200190f35b6100526100ed565b005b34610000576100a0600160a060020a036004351661014a565b60408051918252519081900360200190f35b60005433600160a060020a039081169116146100cd57610000565b600054600160a060020a0316ff5b5b565b600054600160a060020a031681565b600160a060020a03331660008181526001602090815260409182902080543490810190915582519384529083015280517fd4f43975feb89f48dd30cabbb32011045be187d1e11c8ea9faa43efc352825199281900390910190a15b565b600160a060020a0381166000908152600160205260409020545b9190505600a165627a7a723058206a15819ce99646e373c2fc313b076f80df099fad2e11b808a0c23402233a6b910029",
 	"networks": {
 		"1487685691153": {
 			"events": {
@@ -22180,10 +22180,73 @@ module.exports = {
 			"links": {},
 			"address": "0x3d5d72c1a23429f5211946c622c44074f41933e0",
 			"updated_at": 1487699036954
+		},
+		"1487751772711": {
+			"events": {
+				"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_from",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						}
+					],
+					"name": "Deposit",
+					"type": "event"
+				},
+				"0x7db7852b30fc413c4a90995f03d9f21e64c45d0ddc8324a8ce4c730a051cbf82": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_from",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_to",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						}
+					],
+					"name": "Transaction",
+					"type": "event"
+				},
+				"0xbb28353e4598c3b9199101a66e0989549b659a59a54d2c27fbb183f1932c8e6d": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_to",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						}
+					],
+					"name": "Refund",
+					"type": "event"
+				}
+			},
+			"links": {},
+			"address": "0x1166a63e95ecf4f40eccc228aa400078916f3318",
+			"updated_at": 1487751880514
 		}
 	},
 	"schema_version": "0.0.5",
-	"updated_at": 1487699036954
+	"updated_at": 1487756890258
 };
 
 /***/ }),
@@ -36029,9 +36092,25 @@ window.App = {
     ParkingWallet.deployed().then(function(instance) {
       contract = instance;
       return contract.deposit({from: customer_account, value: amount});
-    }).then(function() {
+    }).then(function(result) {
       self.setStatus("Transaction complete!");
       self.refreshBalance();
+      
+      // result is an object with the following values:
+      // result.tx      => transaction hash, string
+      // result.logs    => array of decoded events that were triggered within this transaction
+      // result.receipt => transaction receipt object, which includes gas used
+
+      // We can loop through result.logs to see if we triggered the Transfer event.
+      for (var i = 0; i < result.logs.length; i++) {
+          var log = result.logs[i];
+      if (log.event == "Deposit") {
+          console.log("Event: "+log.event+": amount "+result.args.amount);
+        break;
+       }
+  }
+
+
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error sending coin; see log.");

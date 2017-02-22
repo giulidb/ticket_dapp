@@ -79,6 +79,7 @@ window.App = {
     var self = this;
 
     var amount = parseInt(document.getElementById("amount").value);
+    amount = web3.toWei(amount,'ether');
     //var receiver = document.getElementById("receiver").value;
 
     this.setStatus("Initiating transaction... (please wait)");
@@ -87,9 +88,25 @@ window.App = {
     ParkingWallet.deployed().then(function(instance) {
       contract = instance;
       return contract.deposit({from: customer_account, value: amount});
-    }).then(function() {
+    }).then(function(result) {
       self.setStatus("Transaction complete!");
       self.refreshBalance();
+      
+      // result is an object with the following values:
+      // result.tx      => transaction hash, string
+      // result.logs    => array of decoded events that were triggered within this transaction
+      // result.receipt => transaction receipt object, which includes gas used
+
+      // We can loop through result.logs to see if we triggered the Transfer event.
+      for (var i = 0; i < result.logs.length; i++) {
+          var log = result.logs[i];
+      if (log.event == "Deposit") {
+          console.log("Event: "+log.event);
+        break;
+       }
+  }
+
+
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error sending coin; see log.");

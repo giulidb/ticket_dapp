@@ -114,7 +114,9 @@ contract('ParkingWallet',function(accounts){
 			  
 			  ).catch(done);
 			  
-			  })
+			})
+			
+
 			/*  
 			  
 		//Fourth test for sending a transaction
