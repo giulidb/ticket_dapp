@@ -1,2 +1,2 @@
-Parking Ticket Wallet 
+Ticket Wallet 
 an Ethereum Truffle Dapp

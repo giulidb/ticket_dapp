@@ -1,5 +1,5 @@
-var ParkingWallet = artifacts.require("./ParkingWallet.sol");
+var ShowTicktes = artifacts.require("./ShowTicktes.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(ParkingWallet);
+  deployer.deploy(ShowTicktes);
 };
