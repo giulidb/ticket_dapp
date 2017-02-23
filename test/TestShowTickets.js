@@ -1,10 +1,10 @@
-var ParkingWallet = artifacts.require("./ParkingWallet.sol");
+var ShowTickets = artifacts.require("./ShowTickets.sol");
 
-contract('ParkingWallet',function(accounts){
+contract('ShowTickets',function(accounts){
     
     	console.log(accounts);
         // Take available accounts
-        var owner_account = accounts[0];
+        var organizer_account = accounts[0];
         var customer_account = accounts[1];
 	
 
@@ -12,29 +12,30 @@ contract('ParkingWallet',function(accounts){
         it("Contructor Test", function(done) {
   	
 	// constructor	
-  	ParkingWallet.new({from: owner_account}).then(
+  	ShowTickets.new({from: organizer_account}).then(
   		function(contract) {
 			
-			/*call: use this to check the values of variables (defined as public) as in contract.owner.call().
+			/*call: use this to check the values of variables (defined as public) as in contract.organizer.call().
 			or with an argument like call(0) to call a mapping and get index 0. 
 			1. not mined and so 
 			2. doesn't have to be from an account/wallet(not signed with an account holder's private keys)
   			*/
 			
-			contract.owner.call().then(
-  				function(owner) { 
-					console.log("owner address: "+owner);
+			contract.organizer.call().then(
+  				function(organizer) { 
+					console.log("organizer address: "+organizer);
 					//assert: standard JS testing assertion, Chai documentation
-					assert.equal(owner, owner_account, "Doesn't match!");					
+					assert.equal(organizer, organizer_account, "Doesn't match!");					
   			}).then( 
 				function(){
-					contract.getBalance.call(customer_account,{from: customer_account}).then(
+					/*contract.getBalance.call(customer_account,{from: customer_account}).then(
 						function(balance){
 							console.log("User initial balance: "+balance);
 							assert.equal(balance, 0, "Doesn't match!");
 							done();
 						}
-					).catch(done);
+					).catch(done);*/
+					done();
 				
 				}
 					).catch(done);
@@ -46,7 +47,7 @@ contract('ParkingWallet',function(accounts){
 	/*
 	//Second Test to check call a fuction
 	  it("Should let you change quota", function(done) {
-		  ParkingWallet.new({from: owner_account}).then(
+		  ShowTickets.new({from: organizer_account}).then(
 			function(contract){
 					contract.quota.call().then(
 				function(quota){
@@ -56,7 +57,7 @@ contract('ParkingWallet',function(accounts){
 					).then(
 						function(){
 							// call a function (public)
-							return contract.change_quota(350,{from: owner_account});
+							return contract.change_quota(350,{from: organizer_account});
 						}					
 					).then(
 							function(result){
@@ -74,11 +75,11 @@ contract('ParkingWallet',function(accounts){
 			}).catch(done);								
 		  });
 		  
-		  */
+	
 
 		// Third Test to check buy a Ticket (transaction send)
 		  it("Should let you to make a deposit", function(done) {
-			  ParkingWallet.new({from:owner_account}).then(
+			  ShowTickets.new({from:organizer_account}).then(
 				function(contract){
 					
 					// Ether has a lot of denominations and the one normally used in contracts is Wei,
@@ -117,12 +118,12 @@ contract('ParkingWallet',function(accounts){
 			})
 			
 
-			/*  
+		 
 			  
 		//Fourth test for sending a transaction
-		it("Should issue a refund by owner only", function(done){
+		it("Should issue a refund by organizer only", function(done){
 
-			ParkingWallet.new({from: owner_account}).then(
+			ShowTickets.new({from: organizer_account}).then(
 				function(contract){
 					var amount = web3.toWei(0.5,'ether');
 					var initialBalance = web3.eth.getBalance(contract.address).toNumber();
@@ -143,8 +144,8 @@ contract('ParkingWallet',function(accounts){
                             //to handle big numbers correctly.
 							assert.equal(web3.toBigNumber(balance),amount,"Balance should be unchanged");
 						
-							//try to refund a ticket as owner - should work
-							return contract.refund(customer_account, amount, {from: owner_account});
+							//try to refund a ticket as organizer - should work
+							return contract.refund(customer_account, amount, {from: organizer_account});
 							}
 						).then(
 							function(){
