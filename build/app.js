@@ -21942,8 +21942,34 @@ module.exports = Jsonrpc;
 /***/ (function(module, exports) {
 
 module.exports = {
-	"contract_name": "ParkingWallet",
+	"contract_name": "ShowTickets",
 	"abi": [
+		{
+			"constant": false,
+			"inputs": [],
+			"name": "withdraw",
+			"outputs": [
+				{
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"payable": false,
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "organizer",
+			"outputs": [
+				{
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"type": "function"
+		},
 		{
 			"constant": false,
 			"inputs": [],
@@ -21953,46 +21979,28 @@ module.exports = {
 			"type": "function"
 		},
 		{
-			"constant": true,
-			"inputs": [],
-			"name": "owner",
-			"outputs": [
-				{
-					"name": "",
-					"type": "address"
-				}
-			],
-			"payable": false,
-			"type": "function"
-		},
-		{
 			"constant": false,
 			"inputs": [],
-			"name": "deposit",
+			"name": "buyTicket",
 			"outputs": [],
 			"payable": true,
 			"type": "function"
 		},
 		{
-			"constant": false,
 			"inputs": [
 				{
-					"name": "addr",
-					"type": "address"
-				}
-			],
-			"name": "getBalance",
-			"outputs": [
+					"name": "_eventTime",
+					"type": "uint256"
+				},
 				{
-					"name": "",
+					"name": "_ticketPrice",
+					"type": "uint256"
+				},
+				{
+					"name": "_numTickets",
 					"type": "uint256"
 				}
 			],
-			"payable": false,
-			"type": "function"
-		},
-		{
-			"inputs": [],
 			"payable": false,
 			"type": "constructor"
 		},
@@ -22010,29 +22018,7 @@ module.exports = {
 					"type": "uint256"
 				}
 			],
-			"name": "Payment",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": false,
-					"name": "_from",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"name": "_to",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"name": "_amount",
-					"type": "uint256"
-				}
-			],
-			"name": "Transaction",
+			"name": "TicketPayed",
 			"type": "event"
 		},
 		{
@@ -22049,15 +22035,15 @@ module.exports = {
 					"type": "uint256"
 				}
 			],
-			"name": "Refund",
+			"name": "Revenue",
 			"type": "event"
 		}
 	],
-	"unlinked_binary": "0x606060405234610000575b5b60008054600160a060020a03191633600160a060020a03161790555b60008054600160a060020a03191633600160a060020a03161790555b5b610195806100536000396000f300606060405263ffffffff60e060020a60003504166383197ef081146100455780638da5cb5b14610054578063d0e30db01461007d578063f8b2cb4f14610087575b610000565b34610000576100526100b2565b005b34610000576100616100de565b60408051600160a060020a039092168252519081900360200190f35b6100526100ed565b005b34610000576100a0600160a060020a036004351661014a565b60408051918252519081900360200190f35b60005433600160a060020a039081169116146100cd57610000565b600054600160a060020a0316ff5b5b565b600054600160a060020a031681565b600160a060020a03331660008181526001602090815260409182902080543490810190915582519384529083015280517fd4f43975feb89f48dd30cabbb32011045be187d1e11c8ea9faa43efc352825199281900390910190a15b565b600160a060020a0381166000908152600160205260409020545b9190505600a165627a7a723058206a15819ce99646e373c2fc313b076f80df099fad2e11b808a0c23402233a6b910029",
+	"unlinked_binary": "0x606060405234610000576040516060806103088339810160409081528151602083015191909201515b60008054600160a060020a03191633600160a060020a03161781556001849055600283905560038290556004555b5050505b61029f806100696000396000f300606060405263ffffffff60e060020a6000350416633ccfd60b8114610045578063612032651461006657806383197ef01461008f578063edca914c1461009e575b610000565b34610000576100526100a8565b604080519115158252519081900360200190f35b3461000057610073610159565b60408051600160a060020a039092168252519081900360200190f35b346100005761009c610168565b005b61009c610194565b005b60008054819033600160a060020a039081169116146100c657610000565b50600580546000918290556040519091600160a060020a0333169183156108fc0291849190818181858888f19350505050156101495760408051600160a060020a03331681526020810183905281517f4a6a18e4c9b149324dfa011dab0c5e3450d1481cba2f95393384b46e68a0f40d929181900390910190a160019150610153565b6005819055600091505b5b5b5090565b600054600160a060020a031681565b60005433600160a060020a0390811691161461018357610000565b600054600160a060020a0316ff5b5b565b60015442106101a257610000565b600254803410156101b257610000565b600354600454106101c257610000565b6004805460010190819055600254600580549091019055600160a060020a033316600081815260066020908152604091829020939093558051918252349282019290925281517f2ee461b5afef6c1bb94f0bf24dfe5398220e713f761d4d4e53691d0295b7a5d0929181900390910190a15b8034111561026d57604051600160a060020a033316903483900380156108fc02916000818181858888f193505050501561026d57610000565b5b5b505b5600a165627a7a723058208087c29e73dcf0e6ca7bd64698ddcb6668b40fc64f93682946fb10f1d3481b070029",
 	"networks": {
-		"1487685691153": {
+		"1487865101093": {
 			"events": {
-				"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c": {
+				"0x2ee461b5afef6c1bb94f0bf24dfe5398220e713f761d4d4e53691d0295b7a5d0": {
 					"anonymous": false,
 					"inputs": [
 						{
@@ -22071,32 +22057,10 @@ module.exports = {
 							"type": "uint256"
 						}
 					],
-					"name": "Deposit",
+					"name": "TicketPayed",
 					"type": "event"
 				},
-				"0x7db7852b30fc413c4a90995f03d9f21e64c45d0ddc8324a8ce4c730a051cbf82": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "Transaction",
-					"type": "event"
-				},
-				"0xbb28353e4598c3b9199101a66e0989549b659a59a54d2c27fbb183f1932c8e6d": {
+				"0x4a6a18e4c9b149324dfa011dab0c5e3450d1481cba2f95393384b46e68a0f40d": {
 					"anonymous": false,
 					"inputs": [
 						{
@@ -22110,143 +22074,17 @@ module.exports = {
 							"type": "uint256"
 						}
 					],
-					"name": "Refund",
+					"name": "Revenue",
 					"type": "event"
 				}
 			},
 			"links": {},
-			"address": "0x64b0619743c94b8c5c4f0799cb19c6d4052347af",
-			"updated_at": 1487690811488
-		},
-		"1487697765165": {
-			"events": {
-				"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "Deposit",
-					"type": "event"
-				},
-				"0x7db7852b30fc413c4a90995f03d9f21e64c45d0ddc8324a8ce4c730a051cbf82": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "Transaction",
-					"type": "event"
-				},
-				"0xbb28353e4598c3b9199101a66e0989549b659a59a54d2c27fbb183f1932c8e6d": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "Refund",
-					"type": "event"
-				}
-			},
-			"links": {},
-			"address": "0x3d5d72c1a23429f5211946c622c44074f41933e0",
-			"updated_at": 1487699036954
-		},
-		"1487751772711": {
-			"events": {
-				"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "Deposit",
-					"type": "event"
-				},
-				"0x7db7852b30fc413c4a90995f03d9f21e64c45d0ddc8324a8ce4c730a051cbf82": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "Transaction",
-					"type": "event"
-				},
-				"0xbb28353e4598c3b9199101a66e0989549b659a59a54d2c27fbb183f1932c8e6d": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "Refund",
-					"type": "event"
-				}
-			},
-			"links": {},
-			"address": "0x1166a63e95ecf4f40eccc228aa400078916f3318",
-			"updated_at": 1487751880514
+			"address": "0xaa32d847072769660a3dafdfb4ba7f9038aa63c2",
+			"updated_at": 1487865168250
 		}
 	},
 	"schema_version": "0.0.5",
-	"updated_at": 1487756890258
+	"updated_at": 1487865168250
 };
 
 /***/ }),
@@ -36001,8 +35839,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_web3___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_web3__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_truffle_contract__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_truffle_contract___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_truffle_contract__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__build_contracts_ParkingWallet_json__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__build_contracts_ParkingWallet_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__build_contracts_ParkingWallet_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__build_contracts_ShowTickets_json__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__build_contracts_ShowTickets_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__build_contracts_ShowTickets_json__);
 // Import the page's CSS. 
 
 
@@ -36013,8 +35851,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // Import our contract artifacts and turn them into usable abstractions.
 
 
-// ParkingWallet is our usable abstraction, which we'll use through the code below.
-var ParkingWallet = __WEBPACK_IMPORTED_MODULE_2_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_3__build_contracts_ParkingWallet_json___default.a);
+// ShowTickets is our usable abstraction, which we'll use through the code below.
+var ShowTickets = __WEBPACK_IMPORTED_MODULE_2_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_3__build_contracts_ShowTickets_json___default.a);
 
 // The following code is simple to show off interacting with your contracts.
 // As your needs grow you will likely need to change its form and structure.
@@ -36027,8 +35865,8 @@ window.App = {
   start: function() {
     var self = this;
 
-    // Bootstrap the ParkingWallet abstraction for Use.
-    ParkingWallet.setProvider(web3.currentProvider);
+    // Bootstrap the ShowTickets abstraction for Use.
+    ShowTickets.setProvider(web3.currentProvider);
 
     // Get the initial account balance so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
@@ -36059,7 +35897,7 @@ window.App = {
  refreshBalance: function() {
     var self = this;
     var contract;
-    ParkingWallet.deployed().then(function(instance) {
+    ShowTickets.deployed().then(function(instance) {
       contract = instance;
       console.log("user address: "+ customer_account);
       return contract.getBalance.call(customer_account, {from: customer_account});
@@ -36084,12 +35922,13 @@ window.App = {
     var self = this;
 
     var amount = parseInt(document.getElementById("amount").value);
+    amount = web3.toWei(amount,'ether');
     //var receiver = document.getElementById("receiver").value;
 
     this.setStatus("Initiating transaction... (please wait)");
 
     var contract;
-    ParkingWallet.deployed().then(function(instance) {
+    ShowTickets.deployed().then(function(instance) {
       contract = instance;
       return contract.deposit({from: customer_account, value: amount});
     }).then(function(result) {
@@ -36105,7 +35944,7 @@ window.App = {
       for (var i = 0; i < result.logs.length; i++) {
           var log = result.logs[i];
       if (log.event == "Deposit") {
-          console.log("Event: "+log.event+": amount "+result.args.amount);
+          console.log("Event: "+log.event);
         break;
        }
   }
@@ -36121,7 +35960,7 @@ window.App = {
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/contractMask)
   if (typeof web3 !== 'undefined') {
-    console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 ParkingWallet, ensure you've configured that source properly. If using contractMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-contractmask")
+    console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 ShowTickets, ensure you've configured that source properly. If using contractMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-contractmask")
     // Use Mist/contractMask's provider
     window.web3 = new __WEBPACK_IMPORTED_MODULE_1_web3___default.a(web3.currentProvider);
   } else {
