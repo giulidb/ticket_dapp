@@ -1,5 +1,5 @@
-var ShowTicktes = artifacts.require("./ShowTicktes.sol");
+var ShowTickets = artifacts.require("./ShowTickets.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(ShowTicktes);
+  deployer.deploy(ShowTickets);
 };

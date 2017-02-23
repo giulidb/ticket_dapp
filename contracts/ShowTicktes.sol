@@ -3,7 +3,7 @@ pragma solidity ^0.4.0;
 /** @title Contract for a show tickets sell  .*/
 /** @author Giulia Di Bella .*/
 
-contract ShowTicktes{ 
+contract ShowTickets{ 
 
     address public organizer;
     uint eventTime;
@@ -54,7 +54,7 @@ contract ShowTicktes{
 	
 	/// This is the constructor whose code is
     /// run only when the contract is created.	
-	function ShowTicktes(uint _eventTime, uint _ticketPrice, uint _numTickets) {
+	function ShowTickets(uint _eventTime, uint _ticketPrice, uint _numTickets) {
 		organizer = msg.sender;	
 		eventTime = _eventTime;
 		ticketPrice = _ticketPrice;
