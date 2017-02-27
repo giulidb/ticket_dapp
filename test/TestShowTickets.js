@@ -2,170 +2,255 @@ var ShowTickets = artifacts.require("./ShowTickets.sol");
 
 contract('ShowTickets',function(accounts){
     
-    	console.log(accounts);
-        // Take available accounts
-        var organizer_account = accounts[0];
-        var customer_account = accounts[1];
-	
+    console.log(accounts);
+    // Take available accounts
+    var organizer_account = accounts[0];
+    var customer_account = accounts[1];
+
 
 	// First Test to check if the contract will be initialized with the correct info
-        it("Contructor Test", function(done) {
-  	
-	// constructor	
-  	ShowTickets.new({from: organizer_account}).then(
-  		function(contract) {
-			
+    it("Contructor Test", function(done) {
+		console.log("First Test starts");
+
+		ShowTickets.deployed().then(
+  			function(contract) {
 			/*call: use this to check the values of variables (defined as public) as in contract.organizer.call().
 			or with an argument like call(0) to call a mapping and get index 0. 
 			1. not mined and so 
 			2. doesn't have to be from an account/wallet(not signed with an account holder's private keys)
   			*/
-			
 			contract.organizer.call().then(
   				function(organizer) { 
 					console.log("organizer address: "+organizer);
 					//assert: standard JS testing assertion, Chai documentation
 					assert.equal(organizer, organizer_account, "Doesn't match!");					
-  			}).then( 
-				function(){
-					/*contract.getBalance.call(customer_account,{from: customer_account}).then(
-						function(balance){
-							console.log("User initial balance: "+balance);
-							assert.equal(balance, 0, "Doesn't match!");
-							done();
-						}
-					).catch(done);*/
-					done();
+  				}).then( 
+					function(){
+						contract.numTickets.call().then(
+							function(num){
+								console.log("Initial num of tickets: " + num);
+								assert.equal(num, 150, "Doesn't match!");
+								contract.ticketPrice.call().then(
+									function(price){
+								  		var ticket_price = web3.toWei(0.05,'ether');
+									 	console.log("Initial price of tickets: " + price);
+							         	assert.equal(price, ticket_price, "Doesn't match!");
+								}).then(
+									function(){
+									 	return contract.eventTime.call();
+									}).then(
+										function(timestamp){
+									    	var event_timestamp = 1498338000; //06/24/2017 @ 9:00pm (UTC)
+											console.log("Event time: " + timestamp + ": 06/24/2017 @ 9:00pm (UTC)");
+							         		assert.equal(timestamp, event_timestamp, "Doesn't match!");
+											return contract.incomes.call(); 
+										}).then(
+												function(income){	
+													console.log("Initial Organizer incomes: " + income);
+									         		assert.equal(income,0, "Doesn't match!");
+													done(); 
+												}
+										).catch(done);
 				
-				}
-					).catch(done);
-		console.log("End First Test");
-
+							}).catch(done);
+				});
+			});
+		console.log("First Test ends");
 		});
-	});
-	
-	/*
-	//Second Test to check call a fuction
-	  it("Should let you change quota", function(done) {
-		  ShowTickets.new({from: organizer_account}).then(
-			function(contract){
-					contract.quota.call().then(
-				function(quota){
-					console.log("Quota "+quota.toNumber());
-					assert.equal(quota, 50, "Doesn't match!");						
-					}		
-					).then(
-						function(){
-							// call a function (public)
-							return contract.change_quota(350,{from: organizer_account});
-						}					
-					).then(
-							function(result){
-								// printed will be a long hex, the transaction hash
-								console.log(result);
-								return contract.quota.call();
-								}
-						).then(
-								function(quota){
-									console.log("Quota "+quota.toNumber());
-									assert.equal(quota, 350, "Doesn't match!");
-									done();	
-									
-								}).catch(done);
-			}).catch(done);								
-		  });
-		  
-	
 
-		// Third Test to check buy a Ticket (transaction send)
-		  it("Should let you to make a deposit", function(done) {
-			  ShowTickets.new({from:organizer_account}).then(
+
+		// Second Test to check buy a Ticket (transaction send)
+		// Send the exactly value 
+		it("Should let you to but a Ticket", function(done) {
+        	console.log("Second Test starts");
+			ShowTickets.deployed().then(
 				function(contract){
-					
+				
 					// Ether has a lot of denominations and the one normally used in contracts is Wei,
 					// the smallest. Web3.js provides convenience methods for converting ether to/from Wei
-					
 					var amount = web3.toWei(.05,'ether');
-					
+				
 					// getBalance: Get the balance of an address at a given block, return a big number
-					
 					var initialBalance =  web3.eth.getBalance(contract.address).toNumber();
-					console.log("Initial Balance: "+initialBalance);
-					
+					var buyerBalance = web3.eth.getBalance(customer_account).toNumber();
+					console.log("Contract's initial Balance: " + initialBalance);
+					console.log("Buyer's initial Balance: " + buyerBalance);
+
 					// call the function that is actually a transaction
-					contract.deposit({from: customer_account, value: amount}).then(
-					
-						function(){
-							contract.getBalance.call(customer_account,{from: customer_account}).then(
-							function(balance){
-							console.log("User balance: "+balance);
-							assert.equal(balance, amount, "Doesn't match!");
-							done();
-							}
-							).catch(done);}								
-									
-								
-								).catch(done);
-					}
-			  
-			  
-			  
-			  
-			  
-			  
-			  ).catch(done);
-			  
-			})
-			
-
-		 
-			  
-		//Fourth test for sending a transaction
-		it("Should issue a refund by organizer only", function(done){
-
-			ShowTickets.new({from: organizer_account}).then(
-				function(contract){
-					var amount = web3.toWei(0.5,'ether');
-					var initialBalance = web3.eth.getBalance(contract.address).toNumber();
 					contract.buyTicket({from: customer_account, value: amount}).then(
-						
-					function(){
-						var newBalance = web3.eth.getBalance(contract.address).toNumber();
-						
-						//try to refund a ticket as user - shoul fail
-						//return contract.refund(customer_account,amount,{from: customer_account});
-						}
-					
-					
-					).then(
 						function(){
-							var balance = web3.eth.getBalance(contract.address).toNumber();
-							//You will always get a BigNumber object for number values as JavaScript is not able
-                            //to handle big numbers correctly.
-							assert.equal(web3.toBigNumber(balance),amount,"Balance should be unchanged");
-						
-							//try to refund a ticket as organizer - should work
-							return contract.refund(customer_account, amount, {from: organizer_account});
-							}
-						).then(
-							function(){
-									
-									var postRefundBalance = web3.eth.getBalance(contract.address).toNumber();
-									assert.equal(postRefundBalance, initialBalance, "Balance should be initial balance");
-									done();
-								}
-							
-							
-							).catch(done);
+							//contract's new balance
+							var Balance =  web3.eth.getBalance(contract.address).toNumber();
+							var buyerBalance_after = web3.eth.getBalance(customer_account).toNumber();
+							console.log("Contract's Balance after a ticket sell : " + Balance);
+							console.log("Buyer's Balance after a ticket bought : " + buyerBalance);
+							var diff = Balance - initialBalance;
+							var diff2 =  buyerBalance-buyerBalance_after;
+							console.log("Diff : " + diff2);
+							assert.equal(diff, amount, "Doesn't match!");
+							return contract.ticketSold.call();
+						}).then(
+							function(num){
+								console.log("Num Ticket Sold : " + num);
+								assert.equal(num, 1, "Doesn't match!");
+								return contract.getLeftTickets.call();
+							}).then(
+									function(ticket_left){
+										console.log("Num Ticket Left : " + ticket_left);
+										assert.equal(ticket_left, 149, "Doesn't match!");	
+										return contract.incomes.call(); 
+									}).then(
+										function(income){	
+											console.log("Organizer incomes: " + income);
+									        assert.equal(income,amount, "Doesn't match!");
+											done(); 
+												}
+										)
+									.catch(done);
+				}).catch(done);
+              console.log("Second Test ends");
+		})
+	
+		
+		// Third Test to check buy a Ticket (transaction send)
+		// Send a value less than ticket price 
+		it("Should not let you to but a Ticket", function(done) {
+        	console.log("Third Test starts");
+			ShowTickets.deployed().then(
+				function(contract){
+				
+					// Ether has a lot of denominations and the one normally used in contracts is Wei,
+					// the smallest. Web3.js provides convenience methods for converting ether to/from Wei
+					var amount = web3.toWei(.03,'ether');
+				
+					// getBalance: Get the balance of an address at a given block, return a big number
+					var initialBalance =  web3.eth.getBalance(contract.address).toNumber();
+					var buyerBalance = web3.eth.getBalance(customer_account).toNumber();
+					console.log("Contract's initial Balance: " + initialBalance);
+					console.log("Buyer's initial Balance: " + buyerBalance);
 
-					}).catch(done);
-			
-			
-			
-			});		*/		
+					// call the function that is actually a transaction
+					// should fail
+					contract.buyTicket({from: customer_account, value: amount}).then(
+						function(){
+							//contract's new balance
+							var Balance =  web3.eth.getBalance(contract.address).toNumber();
+							var buyerBalance_after = web3.eth.getBalance(customer_account).toNumber();
+							console.log("Contract's Balance after a ticket sell : " + Balance);
+							console.log("Buyer's Balance after a ticket bought : " + buyerBalance);
+							var diff = Balance - initialBalance;
+							var diff2 =  buyerBalance-buyerBalance_after;
+							console.log("Diff : " + diff2);
+							assert.equal(diff, amount, "Doesn't match!");
+							return contract.ticketSold.call();
+						}).then(
+							function(num){
+								console.log("Num Ticket Sold : " + num);
+								assert.equal(num, 1, "Doesn't match!");
+								return contract.getLeftTickets.call();
+							}).then(
+									function(ticket_left){
+										console.log("Num Ticket Left : " + ticket_left);
+										assert.equal(ticket_left, 149, "Doesn't match!");
+										done();	
+									}).catch(done);
+				}).catch(done);
+              console.log("Third Test ends");
+		})
 
+
+		// Forth Test to check buy a Ticket (transaction send)
+		// Send a value more than ticket price 
+		it("Should let you to but a Ticket", function(done) {
+        	console.log("Forth Test starts");
+			ShowTickets.deployed().then(
+				function(contract){
+				
+					// Ether has a lot of denominations and the one normally used in contracts is Wei,
+					// the smallest. Web3.js provides convenience methods for converting ether to/from Wei
+					var amount = web3.toWei(.10,'ether');
+				
+					// getBalance: Get the balance of an address at a given block, return a big number
+					var initialBalance =  web3.eth.getBalance(contract.address).toNumber();
+					var buyerBalance = web3.eth.getBalance(customer_account).toNumber();
+					console.log("Contract's initial Balance: " + initialBalance);
+					console.log("Buyer's initial Balance: " + buyerBalance);
+
+					// call the function that is actually a transaction
+					// should work
+					contract.buyTicket({from: customer_account, value: amount}).then(
+						function(){
+							//contract's new balance
+							var Balance =  web3.eth.getBalance(contract.address).toNumber();
+							var buyerBalance_after = web3.eth.getBalance(customer_account).toNumber();
+							console.log("Contract's Balance after a ticket sell : " + Balance);
+							console.log("Buyer's Balance after a ticket bought : " + buyerBalance_after);
+							var diff2 =  buyerBalance-buyerBalance_after;
+							console.log("Diff : " + diff2);
+							var diff = Balance - initialBalance;
+							//assert.equal(diff, amount, "Doesn't match!");
+							return contract.ticketSold.call();
+						}).then(
+							function(num){
+								console.log("Num Ticket Sold : " + num);
+								assert.equal(num, 2, "Doesn't match!");
+								return contract.getLeftTickets.call();
+							}).then(
+									function(ticket_left){
+										console.log("Num Ticket Left : " + ticket_left);
+										assert.equal(ticket_left, 148, "Doesn't match!");
+										done();	
+									}).catch(done);
+				}).catch(done);
+              console.log("Forth Test ends");
+		})
+
+
+		// Fifth Test to check withdraw (transaction send)
+		it("Should let you to but a Ticket", function(done) {
+        	console.log("Fifth Test starts");
+			ShowTickets.deployed().then(
+				function(contract){
+				
+					// Ether has a lot of denominations and the one normally used in contracts is Wei,
+					// the smallest. Web3.js provides convenience methods for converting ether to/from Wei
+					var amount = web3.toWei(.05,'ether');
+				
+					// getBalance: Get the balance of an address at a given block, return a big number
+					var initialBalance =  web3.eth.getBalance(contract.address).toNumber();
+					var buyerBalance = web3.eth.getBalance(customer_account).toNumber();
+					console.log("Contract's initial Balance: " + initialBalance);
+					console.log("Buyer's initial Balance: " + buyerBalance);
+
+					// call the function that is actually a transaction
+					// should work
+					contract.buyTicket({from: customer_account, value: amount}).then(
+						function(){
+							//contract's new balance
+							var Balance =  web3.eth.getBalance(contract.address).toNumber();
+							console.log("Contract's Balance after a ticket sell : " + Balance);
+							return contract.incomes.call();
+						}).then(
+							function(income){
+								console.log("Organizer incomes after buy ticket: " + income);
+								var inc = amount*3
+								assert.equal(income, inc , "Doesn't match!");
+								return contract.withdraw({from:organizer_account});
+							}).then(
+									function(){
+										return contract.incomes.call();
+									}).then(
+											function(incom){
+												var finalBalance =  web3.eth.getBalance(contract.address).toNumber();
+												console.log("Contract's Balance after a withdraw : " + finalBalance);
+												console.log("Organizer incomes after withdraw: " + incom);
+												assert.equal(incom, 0 , "Doesn't match!");		
+												done();
+											}
+									).catch(done);
+				}).catch(done);
+              console.log("Fifth Test ends");
+		})
 
 
 });
-
-

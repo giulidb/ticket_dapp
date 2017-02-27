@@ -21945,6 +21945,45 @@ module.exports = {
 	"contract_name": "ShowTickets",
 	"abi": [
 		{
+			"constant": true,
+			"inputs": [],
+			"name": "eventTime",
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "ticketPrice",
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "numTickets",
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"type": "function"
+		},
+		{
 			"constant": false,
 			"inputs": [],
 			"name": "withdraw",
@@ -21958,9 +21997,9 @@ module.exports = {
 			"type": "function"
 		},
 		{
-			"constant": false,
+			"constant": true,
 			"inputs": [],
-			"name": "getTickets",
+			"name": "ticketSold",
 			"outputs": [
 				{
 					"name": "",
@@ -21986,8 +22025,34 @@ module.exports = {
 		{
 			"constant": false,
 			"inputs": [],
+			"name": "getLeftTickets",
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [],
 			"name": "destroy",
 			"outputs": [],
+			"payable": false,
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "incomes",
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
 			"payable": false,
 			"type": "function"
 		},
@@ -22000,7 +22065,20 @@ module.exports = {
 			"type": "function"
 		},
 		{
-			"inputs": [],
+			"inputs": [
+				{
+					"name": "_eventTime",
+					"type": "uint256"
+				},
+				{
+					"name": "_ticketPrice",
+					"type": "uint256"
+				},
+				{
+					"name": "_numTickets",
+					"type": "uint256"
+				}
+			],
 			"payable": false,
 			"type": "constructor"
 		},
@@ -22015,6 +22093,11 @@ module.exports = {
 				{
 					"indexed": false,
 					"name": "_amount",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"name": "_id",
 					"type": "uint256"
 				}
 			],
@@ -22033,13 +22116,18 @@ module.exports = {
 					"indexed": false,
 					"name": "_amount",
 					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"name": "_timestamp",
+					"type": "uint256"
 				}
 			],
 			"name": "RevenueCollected",
 			"type": "event"
 		}
 	],
-	"unlinked_binary": "0x606060405234610000575b60008054600160a060020a03191633600160a060020a03161781556001819055600281905560646003556004555b5b6102d4806100486000396000f300606060405263ffffffff60e060020a6000350416633ccfd60b81146100505780634ed0262214610071578063612032651461009057806383197ef0146100b9578063edca914c146100c8575b610000565b346100005761005d6100d2565b604080519115158252519081900360200190f35b346100005761007e610183565b60408051918252519081900360200190f35b346100005761009d61018e565b60408051600160a060020a039092168252519081900360200190f35b34610000576100c661019d565b005b6100c66101c9565b005b60008054819033600160a060020a039081169116146100f057610000565b50600580546000918290556040519091600160a060020a0333169183156108fc0291849190818181858888f19350505050156101735760408051600160a060020a03331681526020810183905281517fb6536bd566512064c1a5216eeb60ba367287ccbcd1b5e69d66b0220a462a1cc5929181900390910190a16001915061017d565b6005819055600091505b5b5b5090565b600454600354035b90565b600054600160a060020a031681565b60005433600160a060020a039081169116146101b857610000565b600054600160a060020a0316ff5b5b565b60015442106101d757610000565b600254803410156101e757610000565b600354600454106101f757610000565b6004805460010190819055600254600580549091019055600160a060020a033316600081815260066020908152604091829020939093558051918252349282019290925281517f2ee461b5afef6c1bb94f0bf24dfe5398220e713f761d4d4e53691d0295b7a5d0929181900390910190a15b803411156102a257604051600160a060020a033316903483900380156108fc02916000818181858888f19350505050156102a257610000565b5b5b505b5600a165627a7a723058205f068f0da17288da913aae9e9e9db50eeab0d43abacd5d09d4778088d8d21f630029",
+	"unlinked_binary": "0x6060604052346100005760405160608061044d8339810160409081528151602083015191909201515b60008054600160a060020a03191633600160a060020a031617815560018490556002839055600382905560048190556005555b5050505b6103df8061006e6000396000f300606060405236156100885763ffffffff60e060020a6000350416630c317e7b811461008d5780631209b1f6146100ac578063353d90ec146100cb5780633ccfd60b146100ea578063485cc4391461010b578063612032651461012a578063735a33261461015357806383197ef014610172578063d749e7d614610181578063edca914c146101a0575b610000565b346100005761009a6101aa565b60408051918252519081900360200190f35b346100005761009a6101b0565b60408051918252519081900360200190f35b346100005761009a6101b6565b60408051918252519081900360200190f35b34610000576100f76101bc565b604080519115158252519081900360200190f35b346100005761009a610287565b60408051918252519081900360200190f35b346100005761013761028d565b60408051600160a060020a039092168252519081900360200190f35b346100005761009a61029c565b60408051918252519081900360200190f35b346100005761017f6102a7565b005b346100005761009a6102d3565b60408051918252519081900360200190f35b61017f6102d9565b005b60015481565b60025481565b60035481565b60008054819033600160a060020a039081169116146101da57610000565b600060055411156100885750600580546000918290556040519091600160a060020a0333169183156108fc0291849190818181858888f193505050501561026c5760408051600160a060020a033316815260208101839052428183015290517f7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c9181900360600190a160019150610276565b6005819055600091505b5b610281565b610000565b5b5b5090565b60045481565b600054600160a060020a031681565b600454600354035b90565b60005433600160a060020a039081169116146102c257610000565b600054600160a060020a0316ff5b5b565b60055481565b60015442106102e757610000565b60025433813410156102f857610000565b6003546004541061030857610000565b6004805460010190819055600254600580549091019055600160a060020a033316600081815260066020908152604091829020849055815192835234908301528181019290925290517ff183ef051d647b248765d8b5e2fa56508db49f09b669ee4c41574c3000e22a7f9181900360600190a15b813411156103ac57604051600160a060020a038216903484900380156108fc02916000818181858888f150505050505b5b5b50505b5600a165627a7a72305820b110d1a35306bfde6b6c2501d1903a538f1e6fc90b0905b1b37a3ae6b6d006600029",
 	"networks": {
 		"1487865101093": {
 			"events": {
@@ -22122,10 +22210,95 @@ module.exports = {
 			"links": {},
 			"address": "0x1eede6ea08eb3bfed381bc26c948108d9b7d4391",
 			"updated_at": 1488022859745
+		},
+		"1488184740387": {
+			"events": {
+				"0x2ee461b5afef6c1bb94f0bf24dfe5398220e713f761d4d4e53691d0295b7a5d0": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_from",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						}
+					],
+					"name": "TicketPayed",
+					"type": "event"
+				},
+				"0xb6536bd566512064c1a5216eeb60ba367287ccbcd1b5e69d66b0220a462a1cc5": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_owner",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						}
+					],
+					"name": "RevenueCollected",
+					"type": "event"
+				},
+				"0xf183ef051d647b248765d8b5e2fa56508db49f09b669ee4c41574c3000e22a7f": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_from",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_id",
+							"type": "uint256"
+						}
+					],
+					"name": "TicketPayed",
+					"type": "event"
+				},
+				"0x7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_owner",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "RevenueCollected",
+					"type": "event"
+				}
+			},
+			"links": {},
+			"address": "0xc6ddb8bca9422cb8dc141312ab5dbdadabcb7357",
+			"updated_at": 1488208925532
 		}
 	},
 	"schema_version": "0.0.5",
-	"updated_at": 1488022859745
+	"updated_at": 1488208925532
 };
 
 /***/ }),
@@ -35885,32 +36058,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // Import the page's CSS. 
 
 
-// Import libraries we need.
+// Import libraries.
 
 
 
 // Import our contract artifacts and turn them into usable abstractions.
 
 
-// ShowTickets is our usable abstraction, which we'll use through the code below.
+// ShowTickets is an usable abstraction.
 var ShowTickets = __WEBPACK_IMPORTED_MODULE_2_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_3__build_contracts_ShowTickets_json___default.a);
 
-// The following code is simple to show off interacting with your contracts.
-// As your needs grow you will likely need to change its form and structure.
-// For application bootstrapping, check out window.addEventListener below.
 var accounts;
 var organizer_account;
 var customer_account;
-var contract_instance;
+var ticket_amount;
+var events;
 
 window.App = {
   start: function() {
     var self = this;
 
+    console.log("Dapp Initialization");
     // Bootstrap the ShowTickets abstraction for Use.
     ShowTickets.setProvider(web3.currentProvider);
 
-    // Get the initial account balance so it can be displayed.
+    // Get the initial account so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
       if (err != null) {
         alert("There was an error fetching your accounts.");
@@ -35926,17 +36098,39 @@ window.App = {
       customer_account = accounts[1];
 
        ShowTickets.deployed().then(function(instance) {
-       var organizer_address = document.getElementById("contractAddress");
-       organizer_address.innerHTML = instance.address;
-      
-    }).catch(function(e){
-         console.log(e);
-         self.setStatus("Error getting contract's address; see log.");
 
-       });
-        
+           console.log("Contract's parameter: ");          
+           // Get contract's address 
+           var organizer_address = document.getElementById("contractAddress");
+           organizer_address.innerHTML = instance.address;
+          
+           // Start watching events
+          events = instance.allEvents( 
+              function(error, log){
+                  if (!error){
+                    console.log(log);
+                    var eventlog = document.getElementById("events");
+                    eventlog.innerHTML = "Event: " + log.event 
+                                       + "; Ticket Id: " + log.args._id.valueOf();
+                }else
+                    console.log(error);   
+              });
 
-      self.refreshBalance();
+           // Get ticket's price 
+           return instance.ticketPrice.call();
+       }).then(function(ticket_price){
+                  var price = document.getElementById("ticket_price");
+                  ticket_amount = ticket_price.valueOf()
+                  console.log(ticket_amount);
+                  price.innerHTML = web3.fromWei(ticket_amount,'ether');
+                }).catch(function(e){
+                  console.log(e);
+                  self.setStatus("Error getting parameters; see log.");
+                 });					var amount = web3.toWei(.05,'ether');
+
+          
+
+      self.refreshValues();
     });
   },
 
@@ -35945,17 +36139,18 @@ window.App = {
     status.innerHTML = message;
   },
 
- refreshBalance: function() {
+ refreshValues: function() {
+    console.log("Refresh Values");
     var self = this;
     var contract;
+    //console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + web3.eth.getBlock(web3.eth.blockNumber).timestamp);
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
-      console.log("user address: "+ customer_account);
       return contract.organizer.call();
     }).then(function(value) {
       var organizer_address = document.getElementById("organizer");
       organizer_address.innerHTML = value.valueOf();
-      contract.getTickets.call().then(
+      contract.getLeftTickets.call().then(
           function(numTickets){
               var ticketsLeft = document.getElementById("numTickets");
               ticketsLeft.innerHTML = numTickets.valueOf();
@@ -35972,22 +36167,19 @@ window.App = {
     });
   },
 
-  sendCoin: function() {
+  buy: function() {
+    
     var self = this;
-
-    var amount = parseInt(document.getElementById("amount").value);
-    amount = web3.toWei(amount,'ether');
     //var receiver = document.getElementById("receiver").value;
-
     this.setStatus("Initiating transaction... (please wait)");
-
+    console.log("Buy function");
     var contract;
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
-      return contract.deposit({from: customer_account, value: amount});
+      return contract.buyTicket({from: customer_account, value: ticket_amount});
     }).then(function(result) {
       self.setStatus("Transaction complete!");
-      self.refreshBalance();
+      self.refreshValues();
       
       // result is an object with the following values:
       // result.tx      => transaction hash, string
@@ -35997,16 +36189,14 @@ window.App = {
       // We can loop through result.logs to see if we triggered the Transfer event.
       for (var i = 0; i < result.logs.length; i++) {
           var log = result.logs[i];
-      if (log.event == "Deposit") {
+      if (log.event == "TicketPayed") {
           console.log("Event: "+log.event);
         break;
        }
-  }
-
-
+      }
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Error sending coin; see log.");
+      self.setStatus("Error buying ticket; see log.");
     });
   }
 };

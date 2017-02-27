@@ -1,32 +1,31 @@
 // Import the page's CSS. 
 import "../stylesheets/app.css";
 
-// Import libraries we need.
+// Import libraries.
 import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract'
 
 // Import our contract artifacts and turn them into usable abstractions.
 import ShowTickets_artifacts from '../../build/contracts/ShowTickets.json'
 
-// ShowTickets is our usable abstraction, which we'll use through the code below.
+// ShowTickets is an usable abstraction.
 var ShowTickets = contract(ShowTickets_artifacts);
 
-// The following code is simple to show off interacting with your contracts.
-// As your needs grow you will likely need to change its form and structure.
-// For application bootstrapping, check out window.addEventListener below.
 var accounts;
 var organizer_account;
 var customer_account;
-var contract_instance;
+var ticket_amount;
+var events;
 
 window.App = {
   start: function() {
     var self = this;
 
+    console.log("Dapp Initialization");
     // Bootstrap the ShowTickets abstraction for Use.
     ShowTickets.setProvider(web3.currentProvider);
 
-    // Get the initial account balance so it can be displayed.
+    // Get the initial account so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
       if (err != null) {
         alert("There was an error fetching your accounts.");
@@ -42,17 +41,39 @@ window.App = {
       customer_account = accounts[1];
 
        ShowTickets.deployed().then(function(instance) {
-       var organizer_address = document.getElementById("contractAddress");
-       organizer_address.innerHTML = instance.address;
-      
-    }).catch(function(e){
-         console.log(e);
-         self.setStatus("Error getting contract's address; see log.");
 
-       });
-        
+           console.log("Contract's parameter: ");          
+           // Get contract's address 
+           var organizer_address = document.getElementById("contractAddress");
+           organizer_address.innerHTML = instance.address;
+          
+           // Start watching events
+          events = instance.allEvents( 
+              function(error, log){
+                  if (!error){
+                    console.log(log);
+                    var eventlog = document.getElementById("events");
+                    eventlog.innerHTML = "Event: " + log.event 
+                                       + "; Ticket Id: " + log.args._id.valueOf();
+                }else
+                    console.log(error);   
+              });
 
-      self.refreshBalance();
+           // Get ticket's price 
+           return instance.ticketPrice.call();
+       }).then(function(ticket_price){
+                  var price = document.getElementById("ticket_price");
+                  ticket_amount = ticket_price.valueOf()
+                  console.log(ticket_amount);
+                  price.innerHTML = web3.fromWei(ticket_amount,'ether');
+                }).catch(function(e){
+                  console.log(e);
+                  self.setStatus("Error getting parameters; see log.");
+                 });					var amount = web3.toWei(.05,'ether');
+
+          
+
+      self.refreshValues();
     });
   },
 
@@ -61,17 +82,18 @@ window.App = {
     status.innerHTML = message;
   },
 
- refreshBalance: function() {
+ refreshValues: function() {
+    console.log("Refresh Values");
     var self = this;
     var contract;
+    //console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + web3.eth.getBlock(web3.eth.blockNumber).timestamp);
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
-      console.log("user address: "+ customer_account);
       return contract.organizer.call();
     }).then(function(value) {
       var organizer_address = document.getElementById("organizer");
       organizer_address.innerHTML = value.valueOf();
-      contract.getTickets.call().then(
+      contract.getLeftTickets.call().then(
           function(numTickets){
               var ticketsLeft = document.getElementById("numTickets");
               ticketsLeft.innerHTML = numTickets.valueOf();
@@ -88,22 +110,19 @@ window.App = {
     });
   },
 
-  sendCoin: function() {
+  buy: function() {
+    
     var self = this;
-
-    var amount = parseInt(document.getElementById("amount").value);
-    amount = web3.toWei(amount,'ether');
     //var receiver = document.getElementById("receiver").value;
-
     this.setStatus("Initiating transaction... (please wait)");
-
+    console.log("Buy function");
     var contract;
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
-      return contract.deposit({from: customer_account, value: amount});
+      return contract.buyTicket({from: customer_account, value: ticket_amount});
     }).then(function(result) {
       self.setStatus("Transaction complete!");
-      self.refreshBalance();
+      self.refreshValues();
       
       // result is an object with the following values:
       // result.tx      => transaction hash, string
@@ -113,16 +132,14 @@ window.App = {
       // We can loop through result.logs to see if we triggered the Transfer event.
       for (var i = 0; i < result.logs.length; i++) {
           var log = result.logs[i];
-      if (log.event == "Deposit") {
+      if (log.event == "TicketPayed") {
           console.log("Event: "+log.event);
         break;
        }
-  }
-
-
+      }
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Error sending coin; see log.");
+      self.setStatus("Error buying ticket; see log.");
     });
   }
 };

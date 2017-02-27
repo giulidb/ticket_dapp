@@ -6,11 +6,11 @@ pragma solidity ^0.4.0;
 contract ShowTickets{ 
 
     address public organizer;
-    uint eventTime;
-    uint ticketPrice;
-    uint numTickets;
-    uint ticketSold;
-    uint incomes;
+    uint public eventTime;
+    uint public ticketPrice;
+    uint public numTickets;
+    uint public ticketSold;
+    uint public incomes;
     mapping (address => uint) ticketOf;
 
 	
@@ -36,45 +36,52 @@ contract ShowTickets{
     // refunded, but only after the function body.
     // This was dangerous before Solidity version 0.4.0,
     // where it was possible to skip the part after `_;`.
-    modifier costs(uint _amount) {
+    modifier costs(uint _amount, address addr) {
         if (msg.value < _amount)
             throw;
         _;
         if (msg.value > _amount)
-            if(msg.sender.send(msg.value - _amount))
-               throw;
+            //TODO: modify this part such that a user case withdraw by hismself
+           if(addr.send(msg.value - _amount))
+              return;
     }
+
+
+    //This means that the function will be executed
+    //only if income > 0
+    modifier onlyValue() { if (incomes > 0 ) _; else throw; }
 
 	
 	// Use of an event to pass along return values from contracts, 
 	// to an app's frontend (reccomended!)
-	event TicketPayed(address _from, uint _amount);
-	event RevenueCollected(address _owner, uint _amount);
+	event TicketPayed(address _from, uint _amount, uint _id);
+	event RevenueCollected(address _owner, uint _amount, uint _timestamp);
 	
 	
 	/// This is the constructor whose code is
     /// run only when the contract is created.	
-	function ShowTickets() {
+	function ShowTickets(uint _eventTime, uint _ticketPrice, uint _numTickets) {
 		organizer = msg.sender;	
-		eventTime = 0;
-		ticketPrice = 0;
-		numTickets = 100;
+		eventTime = _eventTime;
+ 		ticketPrice = _ticketPrice;
+ 		numTickets = _numTickets;
 		ticketSold = 0;
+        incomes = 0;
 	}
 
-    function getTickets() public returns(uint){
+    function getLeftTickets() public returns(uint){
         return numTickets-ticketSold;
     }
 
 
-	function buyTicket() onlyBefore public payable costs(ticketPrice){
+	function buyTicket() onlyBefore costs(ticketPrice,msg.sender) public payable{
 	    
        // Sending back the money by simply using
        // organizer.send(tickePrice) is a security risk
        // because it can be prevented by the caller by e.g.
        // raising the call stack to 1023. It is always safer
        // to let the recipient withdraw their money themselves.	    
-	 
+       
 	   if(ticketSold >= numTickets){
 	       // throw ensures funds will be returned
 	       throw;
@@ -83,12 +90,12 @@ contract ShowTickets{
 	    ticketSold++;
 	    incomes += ticketPrice;
 	    ticketOf[msg.sender] = ticketSold;
-	    TicketPayed(msg.sender, msg.value);
+	    TicketPayed(msg.sender, msg.value,ticketSold);
 	    	
 	}
 	
 	
-	function withdraw() onlyOrganizer public returns(bool){
+	function withdraw() onlyOrganizer onlyValue public returns(bool){
 	    
         uint amount = incomes;
         // Remember to zero the pending refund before
@@ -100,7 +107,7 @@ contract ShowTickets{
         } else {
             incomes = amount;
             return false;
-        }
+         }
     }
 
 	
