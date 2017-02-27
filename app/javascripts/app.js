@@ -17,6 +17,7 @@ var ShowTickets = contract(ShowTickets_artifacts);
 var accounts;
 var organizer_account;
 var customer_account;
+var contract_instance;
 
 window.App = {
   start: function() {
@@ -38,8 +39,17 @@ window.App = {
       }
 
       accounts = accs;
-
       customer_account = accounts[1];
+
+       ShowTickets.deployed().then(function(instance) {
+       var organizer_address = document.getElementById("contractAddress");
+       organizer_address.innerHTML = instance.address;
+      
+    }).catch(function(e){
+         console.log(e);
+         self.setStatus("Error getting contract's address; see log.");
+
+       });
         
 
       self.refreshBalance();
@@ -57,21 +67,24 @@ window.App = {
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
       console.log("user address: "+ customer_account);
-      return contract.getBalance.call(customer_account, {from: customer_account});
+      return contract.organizer.call();
     }).then(function(value) {
-      var balance_element = document.getElementById("balance");
-      balance_element.innerHTML = value.valueOf();
-      contract.owner.call().then(
-        function(owner){
-          console.log("owner address: "+owner);
-        }
+      var organizer_address = document.getElementById("organizer");
+      organizer_address.innerHTML = value.valueOf();
+      contract.getTickets.call().then(
+          function(numTickets){
+              var ticketsLeft = document.getElementById("numTickets");
+              ticketsLeft.innerHTML = numTickets.valueOf();
+          }
 
       ).catch(function(e){
-          console.log(e);
-            });
+            console.log(e);
+            self.setStatus("Error getting values; see log.");
+      });
+      
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Error getting balance; see log.");
+      self.setStatus("Error getting values; see log.");
     });
   },
 

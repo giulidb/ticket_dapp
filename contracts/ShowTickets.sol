@@ -49,18 +49,22 @@ contract ShowTickets{
 	// Use of an event to pass along return values from contracts, 
 	// to an app's frontend (reccomended!)
 	event TicketPayed(address _from, uint _amount);
-	event Revenue(address _to, uint _amount);
+	event RevenueCollected(address _owner, uint _amount);
 	
 	
 	/// This is the constructor whose code is
     /// run only when the contract is created.	
-	function ShowTickets(uint _eventTime, uint _ticketPrice, uint _numTickets) {
+	function ShowTickets() {
 		organizer = msg.sender;	
-		eventTime = _eventTime;
-		ticketPrice = _ticketPrice;
-		numTickets = _numTickets;
+		eventTime = 0;
+		ticketPrice = 0;
+		numTickets = 100;
 		ticketSold = 0;
 	}
+
+    function getTickets() public returns(uint){
+        return numTickets-ticketSold;
+    }
 
 
 	function buyTicket() onlyBefore public payable costs(ticketPrice){
@@ -91,7 +95,7 @@ contract ShowTickets{
         // sending to prevent re-entrancy attacks
         incomes = 0;
         if (msg.sender.send(amount)) {
-            Revenue(msg.sender, amount);
+            RevenueCollected(msg.sender, amount);
             return true;
         } else {
             incomes = amount;

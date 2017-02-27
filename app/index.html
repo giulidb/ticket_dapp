@@ -8,7 +8,16 @@
 <body>
   <h1>Ticket Wallet</h1>
   <h2>an Ethereum Truffle Dapp</h2>
-  <h3>You have <span class="black"><span id="balance"></span> ETH</span> in your wallet.</h3>
+  <div class="section">
+    Contract deployed at: <div id="contractAddress"></div>
+  </div><br>
+  <div class="section">
+    Organizer address: <span id="organizer"></span>
+  </div><br>
+  <div class="section">
+    Num Tickets Left: <span id="numTickets"></span>
+  </div>
+   <hr/>
   <br>
   <h1>Buy a Ticket</h1>
   <br><label for="amount">Ticket Price:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
