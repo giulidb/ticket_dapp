@@ -31,7 +31,7 @@ contract ShowTickets{
     
     
     // This modifier requires a certain
-    // fee being associated with a function call.
+    // price being associated with a function call.
     // If the caller sent too much, he or she is
     // refunded, but only after the function body.
     // This was dangerous before Solidity version 0.4.0,
@@ -48,12 +48,12 @@ contract ShowTickets{
 
 
     //This means that the function will be executed
-    //only if income > 0
+    //only if incomes > 0
     modifier onlyValue() { if (incomes > 0 ) _; else throw; }
 
 	
 	// Use of an event to pass along return values from contracts, 
-	// to an app's frontend (reccomended!)
+	// to an app's frontend
 	event TicketPayed(address _from, uint _amount, uint _id);
 	event RevenueCollected(address _owner, uint _amount, uint _timestamp);
 	
@@ -68,8 +68,10 @@ contract ShowTickets{
 		ticketSold = 0;
         incomes = 0;
 	}
+    
 
-    function getLeftTickets() public returns(uint){
+    /// Returns num of tickets still buyable
+    function getLeftTickets() constant public returns(uint){
         return numTickets-ticketSold;
     }
 
@@ -95,6 +97,7 @@ contract ShowTickets{
 	}
 	
 	
+    /// withdraw pattern fot the organizer
 	function withdraw() onlyOrganizer onlyValue public returns(bool){
 	    
         uint amount = incomes;
@@ -102,7 +105,7 @@ contract ShowTickets{
         // sending to prevent re-entrancy attacks
         incomes = 0;
         if (msg.sender.send(amount)) {
-            RevenueCollected(msg.sender, amount);
+            RevenueCollected(msg.sender, amount,now);
             return true;
         } else {
             incomes = amount;
@@ -111,7 +114,7 @@ contract ShowTickets{
     }
 
 	
-	/// without this funds could be locked in the contract forever!
+	/// closing contract and send value to its creator
 	function destroy()  onlyOrganizer{
 	    suicide(organizer);
 		

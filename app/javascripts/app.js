@@ -12,10 +12,10 @@ import ShowTickets_artifacts from '../../build/contracts/ShowTickets.json'
 var ShowTickets = contract(ShowTickets_artifacts);
 
 var accounts;
-var organizer_account;
 var customer_account;
 var ticket_amount;
 var events;
+var numTickets;
 
 window.App = {
   start: function() {
@@ -38,7 +38,7 @@ window.App = {
       }
 
       accounts = accs;
-      customer_account = accounts[1];
+      document.getElementById("buyer").value = accounts[1].toString();
 
        ShowTickets.deployed().then(function(instance) {
 
@@ -54,6 +54,7 @@ window.App = {
                     console.log(log);
                     var eventlog = document.getElementById("events");
                     eventlog.innerHTML = "Event: " + log.event 
+                                       + "; Buyer's address: " + log.args._from.valueOf()
                                        + "; Ticket Id: " + log.args._id.valueOf();
                 }else
                     console.log(error);   
@@ -82,6 +83,11 @@ window.App = {
     status.innerHTML = message;
   },
 
+  showMessage: function(message){
+    console.log(message);
+    alert(message);
+  },
+
  refreshValues: function() {
     console.log("Refresh Values");
     var self = this;
@@ -94,9 +100,10 @@ window.App = {
       var organizer_address = document.getElementById("organizer");
       organizer_address.innerHTML = value.valueOf();
       contract.getLeftTickets.call().then(
-          function(numTickets){
+          function(_numTickets){
               var ticketsLeft = document.getElementById("numTickets");
-              ticketsLeft.innerHTML = numTickets.valueOf();
+              ticketsLeft.innerHTML = _numTickets.valueOf();
+              numTickets = _numTickets.valueOf();
           }
 
       ).catch(function(e){
@@ -113,13 +120,18 @@ window.App = {
   buy: function() {
     
     var self = this;
-    //var receiver = document.getElementById("receiver").value;
+    if(numTickets == 0){
+      self.showMessage("Tickets for this show are finished!");
+      return;
+    }
+    var buyer = document.getElementById("buyer").value;
     this.setStatus("Initiating transaction... (please wait)");
     console.log("Buy function");
     var contract;
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
-      return contract.buyTicket({from: customer_account, value: ticket_amount});
+      
+      return contract.buyTicket({from: buyer, value: ticket_amount});
     }).then(function(result) {
       self.setStatus("Transaction complete!");
       self.refreshValues();

@@ -7,6 +7,7 @@
 </head>
 <body>
   <h1>Ticket Wallet</h1>
+  <br>
   <h2>an Ethereum Truffle Dapp</h2>
   <hr/>
   <div class="section">
@@ -23,11 +24,13 @@
   <br>
   <h1>Buy a Ticket</h1>
   <br><label for="amount">Ticket Price: <span id="ticket_price"></span> ETH
-  <br><label for="receiver">Your Address:</label><input type="text" id="receiver" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
-  <br><br><button id="send" onclick="App.buy()">Buy Ticket</button>
-  <br><br>
+   <div class="section">
+  <br>My Address:<input type="text" id="buyer" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+  <br><br><button id="buy" onclick="App.buy()">Buy Ticket</button>
+  </div>
   <span id="status"></span>
   </div>
+  <br>
   <hr/>
   <div class="section">
   <h1>Events</h1>
