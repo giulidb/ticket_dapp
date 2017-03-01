@@ -11,7 +11,20 @@ contract ShowTickets{
     uint public numTickets;
     uint public ticketSold;
     uint public incomes;
-    mapping (address => uint) ticketOf;
+    mapping (address => Ticket) ticketOf;
+
+    struct Ticket{
+        uint num;
+        bool used;
+    }
+
+
+    // Use of an event to pass along return values from contracts, 
+	// to an app's frontend
+	event TicketPayed(address _from, uint _amount, uint _id, uint _timestamp);
+	event RevenueCollected(address _owner, uint _amount, uint _timestamp);
+    event UserRefunded(address _to, uint _amount);
+    event Checkin(address user, uint _timestamp);
 
 	
 	// This means that if the organizer calls this function, the
@@ -41,22 +54,17 @@ contract ShowTickets{
             throw;
         _;
         if (msg.value > _amount)
-            //TODO: modify this part such that a user case withdraw by hismself
+            // TODO: modify this part such that a user case withdraw by hismself
+            // or cancel the operation mantain data consistency
            if(addr.send(msg.value - _amount))
-              return;
+               UserRefunded(addr,msg.value - _amount);
     }
 
 
     //This means that the function will be executed
     //only if incomes > 0
     modifier onlyValue() { if (incomes > 0 ) _; else throw; }
-
-	
-	// Use of an event to pass along return values from contracts, 
-	// to an app's frontend
-	event TicketPayed(address _from, uint _amount, uint _id);
-	event RevenueCollected(address _owner, uint _amount, uint _timestamp);
-	
+    
 	
 	/// This is the constructor whose code is
     /// run only when the contract is created.	
@@ -91,10 +99,30 @@ contract ShowTickets{
 	
 	    ticketSold++;
 	    incomes += ticketPrice;
-	    ticketOf[msg.sender] = ticketSold;
-	    TicketPayed(msg.sender, msg.value,ticketSold);
+	    ticketOf[msg.sender] = Ticket({num: ticketSold, used: false});
+	    TicketPayed(msg.sender, msg.value,ticketSold,now);
 	    	
 	}
+
+
+    /// Check-in function 
+    /// @dev return false if msg.sender doesn't have ticket
+    /// or he has already used it otherwise change the state
+    /// of the ticket and return true
+    function checkin() public returns(bool){
+        if( ticketOf[msg.sender].num == 0 || ticketOf[msg.sender].used == true){
+            return false;
+        }else{
+            ticketOf[msg.sender].used = true;
+            Checkin(msg.sender,now);
+            return true;
+        }         
+    }
+
+    /// function get ticket
+    function getTicket(address user) public returns(uint,bool){
+        return (ticketOf[user].num, ticketOf[user].used);
+    }
 	
 	
     /// withdraw pattern fot the organizer

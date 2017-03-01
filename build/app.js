@@ -21997,6 +21997,28 @@ module.exports = {
 			"type": "function"
 		},
 		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "user",
+					"type": "address"
+				}
+			],
+			"name": "getTicket",
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				},
+				{
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"payable": false,
+			"type": "function"
+		},
+		{
 			"constant": true,
 			"inputs": [],
 			"name": "ticketSold",
@@ -22040,6 +22062,19 @@ module.exports = {
 			"inputs": [],
 			"name": "destroy",
 			"outputs": [],
+			"payable": false,
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [],
+			"name": "checkin",
+			"outputs": [
+				{
+					"name": "",
+					"type": "bool"
+				}
+			],
 			"payable": false,
 			"type": "function"
 		},
@@ -22099,6 +22134,11 @@ module.exports = {
 					"indexed": false,
 					"name": "_id",
 					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"name": "_timestamp",
+					"type": "uint256"
 				}
 			],
 			"name": "TicketPayed",
@@ -22125,9 +22165,43 @@ module.exports = {
 			],
 			"name": "RevenueCollected",
 			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"name": "_to",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"name": "_amount",
+					"type": "uint256"
+				}
+			],
+			"name": "UserRefunded",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"name": "user",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"name": "_timestamp",
+					"type": "uint256"
+				}
+			],
+			"name": "Checkin",
+			"type": "event"
 		}
 	],
-	"unlinked_binary": "0x6060604052346100005760405160608061044d8339810160409081528151602083015191909201515b60008054600160a060020a03191633600160a060020a031617815560018490556002839055600382905560048190556005555b5050505b6103df8061006e6000396000f300606060405236156100885763ffffffff60e060020a6000350416630c317e7b811461008d5780631209b1f6146100ac578063353d90ec146100cb5780633ccfd60b146100ea578063485cc4391461010b578063612032651461012a578063735a33261461015357806383197ef014610172578063d749e7d614610181578063edca914c146101a0575b610000565b346100005761009a6101aa565b60408051918252519081900360200190f35b346100005761009a6101b0565b60408051918252519081900360200190f35b346100005761009a6101b6565b60408051918252519081900360200190f35b34610000576100f76101bc565b604080519115158252519081900360200190f35b346100005761009a610287565b60408051918252519081900360200190f35b346100005761013761028d565b60408051600160a060020a039092168252519081900360200190f35b346100005761009a61029c565b60408051918252519081900360200190f35b346100005761017f6102a7565b005b346100005761009a6102d3565b60408051918252519081900360200190f35b61017f6102d9565b005b60015481565b60025481565b60035481565b60008054819033600160a060020a039081169116146101da57610000565b600060055411156100885750600580546000918290556040519091600160a060020a0333169183156108fc0291849190818181858888f193505050501561026c5760408051600160a060020a033316815260208101839052428183015290517f7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c9181900360600190a160019150610276565b6005819055600091505b5b610281565b610000565b5b5b5090565b60045481565b600054600160a060020a031681565b600454600354035b90565b60005433600160a060020a039081169116146102c257610000565b600054600160a060020a0316ff5b5b565b60055481565b60015442106102e757610000565b60025433813410156102f857610000565b6003546004541061030857610000565b6004805460010190819055600254600580549091019055600160a060020a033316600081815260066020908152604091829020849055815192835234908301528181019290925290517ff183ef051d647b248765d8b5e2fa56508db49f09b669ee4c41574c3000e22a7f9181900360600190a15b813411156103ac57604051600160a060020a038216903484900380156108fc02916000818181858888f150505050505b5b5b50505b5600a165627a7a7230582072730690160fc9e119df586a3c9cb1be5d379ddcc442faeeb488b2217db13dff0029",
+	"unlinked_binary": "0x6060604052346100005760405160608061061c8339810160409081528151602083015191909201515b60008054600160a060020a03191633600160a060020a031617815560018490556002839055600382905560048190556005555b5050505b6105ae8061006e6000396000f3006060604052361561009e5763ffffffff60e060020a6000350416630c317e7b81146100a35780631209b1f6146100c2578063353d90ec146100e15780633ccfd60b146101005780634717dea914610121578063485cc439146101535780636120326514610172578063735a33261461019b57806383197ef0146101ba578063baeb0718146101c9578063d749e7d6146101ea578063edca914c14610209575b610000565b34610000576100b0610213565b60408051918252519081900360200190f35b34610000576100b0610219565b60408051918252519081900360200190f35b34610000576100b061021f565b60408051918252519081900360200190f35b346100005761010d610225565b604080519115158252519081900360200190f35b346100005761013a600160a060020a03600435166102f0565b6040805192835290151560208301528051918290030190f35b34610000576100b0610319565b60408051918252519081900360200190f35b346100005761017f61031f565b60408051600160a060020a039092168252519081900360200190f35b34610000576100b061032e565b60408051918252519081900360200190f35b34610000576101c7610339565b005b346100005761010d610365565b604080519115158252519081900360200190f35b34610000576100b0610425565b60408051918252519081900360200190f35b6101c761042b565b005b60015481565b60025481565b60035481565b60008054819033600160a060020a0390811691161461024357610000565b6000600554111561009e5750600580546000918290556040519091600160a060020a0333169183156108fc0291849190818181858888f19350505050156102d55760408051600160a060020a033316815260208101839052428183015290517f7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c9181900360600190a1600191506102df565b6005819055600091505b5b6102ea565b610000565b5b5b5090565b600160a060020a0381166000908152600660205260409020805460019091015460ff165b915091565b60045481565b600054600160a060020a031681565b600454600354035b90565b60005433600160a060020a0390811691161461035457610000565b600054600160a060020a0316ff5b5b565b600160a060020a03331660009081526006602052604081205415806103aa5750600160a060020a033316600090815260066020526040902060019081015460ff161515145b156103b757506000610336565b600160a060020a0333166000818152600660209081526040918290206001908101805460ff191690911790558151928352429083015280517fda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae9281900390910190a1506001610336565b5b90565b60055481565b600154421061043957610000565b600254338134101561044a57610000565b6003546004541061045a57610000565b6004805460019081018083556002546005805490910190556040805180820182529182526000602080840182815233600160a060020a03168084526006835292849020945185555193909401805460ff1916931515939093179092559254835191825234928201929092528083019190915242606082015290517f52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526916080908290030190a15b8134111561057b57604051600160a060020a038216903484900380156108fc02916000818181858888f193505050501561057b5760408051600160a060020a038316815234849003602082015281517f7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50929181900390910190a15b5b5b50505b5600a165627a7a7230582018f3c179691fa316a2ba069b09014148c92e32f021cd4b8d6d328dc29ca315880029",
 	"networks": {
 		"1487865101093": {
 			"events": {
@@ -22397,10 +22471,122 @@ module.exports = {
 			"links": {},
 			"address": "0x1ed8848de6252409a3169e5dc677bb799b429033",
 			"updated_at": 1488282220688
+		},
+		"1488357468138": {
+			"events": {
+				"0xf183ef051d647b248765d8b5e2fa56508db49f09b669ee4c41574c3000e22a7f": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_from",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_id",
+							"type": "uint256"
+						}
+					],
+					"name": "TicketPayed",
+					"type": "event"
+				},
+				"0x7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_owner",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "RevenueCollected",
+					"type": "event"
+				},
+				"0x7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_to",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						}
+					],
+					"name": "UserRefunded",
+					"type": "event"
+				},
+				"0xda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "user",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "Checkin",
+					"type": "event"
+				},
+				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_from",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "TicketPayed",
+					"type": "event"
+				}
+			},
+			"links": {},
+			"address": "0xcc3fce0f2276cfdb9cff31303b427d96979c594b",
+			"updated_at": 1488378860407
 		}
 	},
 	"schema_version": "0.0.5",
-	"updated_at": 1488282220688
+	"updated_at": 1488378860407
 };
 
 /***/ }),
@@ -36173,8 +36359,10 @@ var ShowTickets = __WEBPACK_IMPORTED_MODULE_2_truffle_contract___default()(__WEB
 var accounts;
 var customer_account;
 var ticket_amount;
-var events;
+var PaymentEvent;
+var CheckinEvent;
 var numTickets;
+var buyers = [];
 
 window.App = {
   start: function() {
@@ -36207,17 +36395,30 @@ window.App = {
            organizer_address.innerHTML = instance.address;
           
            // Start watching events
-          events = instance.allEvents( 
+          PaymentEvent = instance.TicketPayed( 
               function(error, log){
                   if (!error){
                     console.log(log);
-                    var eventlog = document.getElementById("events");
-                    eventlog.innerHTML = "Event: " + log.event 
-                                       + "; Buyer's address: " + log.args._from.valueOf()
-                                       + "; Ticket Id: " + log.args._id.valueOf();
+                    var myTickets = document.getElementById("tickets");
+                    myTickets.innerHTML = "Ticket num: " + log.args._id.valueOf() + "<br />"
+                                       + "Buyer's address: " + log.args._from.valueOf() + "<br />"
+                                       + "At time: " + new Date(log.args._timestamp.valueOf()*1000);
+                    var usedTickets = document.getElementById("used");
+                    usedTickets.innerHTML= "";                                 
+                    buyers.push(log.args._from.valueOf());                   
                 }else
                     console.log(error);   
               });
+
+           CheckinEvent = instance.Checkin( 
+              function(error, log){
+                  if (!error){
+                    console.log(log);
+                    var usedTickets = document.getElementById("used");
+                    usedTickets.innerHTML = "Used at time: " + new Date(log.args._timestamp.valueOf()*1000);              
+                }else
+                    console.log(error);   
+              });   
 
            // Get ticket's price 
            return instance.ticketPrice.call();
@@ -36246,12 +36447,12 @@ window.App = {
     console.log(message);
     alert(message);
   },
-
- refreshValues: function() {
+  
+ refreshValues: function(){
     console.log("Refresh Values");
     var self = this;
     var contract;
-    //console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + web3.eth.getBlock(web3.eth.blockNumber).timestamp);
+    console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
       return contract.organizer.call();
@@ -36284,6 +36485,12 @@ window.App = {
       return;
     }
     var buyer = document.getElementById("buyer").value;
+    for(var i = 0; i < buyer.length; i++){
+      if(buyers[i] == buyer){
+         self.showMessage("You already have a ticket for this show");
+         return;
+      }
+    }
     this.setStatus("Initiating transaction... (please wait)");
     console.log("Buy function");
     var contract;
@@ -36294,24 +36501,28 @@ window.App = {
     }).then(function(result) {
       self.setStatus("Transaction complete!");
       self.refreshValues();
-      
-      // result is an object with the following values:
-      // result.tx      => transaction hash, string
-      // result.logs    => array of decoded events that were triggered within this transaction
-      // result.receipt => transaction receipt object, which includes gas used
-
-      // We can loop through result.logs to see if we triggered the Transfer event.
-      for (var i = 0; i < result.logs.length; i++) {
-          var log = result.logs[i];
-      if (log.event == "TicketPayed") {
-          console.log("Event: "+log.event);
-        break;
-       }
-      }
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error buying ticket; see log.");
     });
+  },
+
+  use: function(){
+      var self = this;
+      console.log("Use function");
+      var contract;
+      var buyer = document.getElementById("buyer").value;
+      ShowTickets.deployed().then(function(instance) {
+      contract = instance;
+      return contract.checkin({from: buyer});
+             }).then(
+                  function(result) {
+                   // self.setStatus("Transaction complete!");
+                  }).catch(
+                          function(e) {
+                              console.log(e);
+                              self.setStatus("Error use ticket; see log.");
+                          });
   }
 };
 

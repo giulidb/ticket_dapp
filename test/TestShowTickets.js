@@ -29,7 +29,7 @@ contract('ShowTickets',function(accounts){
 						contract.numTickets.call().then(
 							function(num){
 								console.log("Initial num of tickets: " + num);
-								assert.equal(num, 150, "Doesn't match!");
+								assert.equal(num, 5, "Doesn't match!");
 								contract.ticketPrice.call().then(
 									function(price){
 								  		var ticket_price = web3.toWei(0.05,'ether');
@@ -60,8 +60,7 @@ contract('ShowTickets',function(accounts){
 
 
 		// Second Test to check buy a Ticket (transaction send)
-		// Send the exactly value 
-		it("Should let you to but a Ticket", function(done) {
+		it("Should let you to buy a Ticket sending the exact value", function(done) {
         	console.log("Second Test starts");
 			ShowTickets.deployed().then(
 				function(contract){
@@ -97,7 +96,7 @@ contract('ShowTickets',function(accounts){
 							}).then(
 									function(ticket_left){
 										console.log("Num Ticket Left : " + ticket_left);
-										assert.equal(ticket_left, 149, "Doesn't match!");	
+										assert.equal(ticket_left, 4, "Doesn't match!");	
 										return contract.incomes.call(); 
 									}).then(
 										function(income){	
@@ -113,8 +112,7 @@ contract('ShowTickets',function(accounts){
 	
 		
 		// Third Test to check buy a Ticket (transaction send)
-		// Send a value less than ticket price 
-		it("Should not let you to but a Ticket", function(done) {
+		it("Should not let you to buy a Ticket send less valure(failed)", function(done) {
         	console.log("Third Test starts");
 			ShowTickets.deployed().then(
 				function(contract){
@@ -151,7 +149,7 @@ contract('ShowTickets',function(accounts){
 							}).then(
 									function(ticket_left){
 										console.log("Num Ticket Left : " + ticket_left);
-										assert.equal(ticket_left, 149, "Doesn't match!");
+										assert.equal(ticket_left, 4, "Doesn't match!");
 										done();	
 									}).catch(done);
 				}).catch(done);
@@ -160,8 +158,7 @@ contract('ShowTickets',function(accounts){
 
 
 		// Forth Test to check buy a Ticket (transaction send)
-		// Send a value more than ticket price 
-		it("Should let you to but a Ticket", function(done) {
+		it("Should let you to buy a Ticket send a valure more than the price", function(done) {
         	console.log("Forth Test starts");
 			ShowTickets.deployed().then(
 				function(contract){
@@ -198,7 +195,7 @@ contract('ShowTickets',function(accounts){
 							}).then(
 									function(ticket_left){
 										console.log("Num Ticket Left : " + ticket_left);
-										assert.equal(ticket_left, 148, "Doesn't match!");
+										assert.equal(ticket_left, 3, "Doesn't match!");
 										done();	
 									}).catch(done);
 				}).catch(done);
@@ -206,14 +203,12 @@ contract('ShowTickets',function(accounts){
 		})
 
 
-		// Fifth Test to check withdraw (transaction send)
-		it("Should let you to but a Ticket", function(done) {
+		// Fifth Test to check withdraw
+		it("Should let you to withdraw incomes", function(done) {
         	console.log("Fifth Test starts");
 			ShowTickets.deployed().then(
 				function(contract){
 				
-					// Ether has a lot of denominations and the one normally used in contracts is Wei,
-					// the smallest. Web3.js provides convenience methods for converting ether to/from Wei
 					var amount = web3.toWei(.05,'ether');
 				
 					// getBalance: Get the balance of an address at a given block, return a big number
@@ -250,6 +245,82 @@ contract('ShowTickets',function(accounts){
 									).catch(done);
 				}).catch(done);
               console.log("Fifth Test ends");
+		})
+
+
+		// Sixth Test for check-in transaction
+		it("Should let you to use a Ticket", function(done) {
+        	console.log("Sixth Test starts");
+			ShowTickets.deployed().then(
+				function(contract){
+				
+					var amount = web3.toWei(.05,'ether');
+					var initialBalance =  web3.eth.getBalance(contract.address).toNumber();
+					var buyerBalance = web3.eth.getBalance(customer_account).toNumber();
+					console.log("Contract's initial Balance: " + initialBalance);
+					console.log("Buyer's initial Balance: " + buyerBalance);
+
+					// call the function that is actually a transaction
+					contract.buyTicket({from: customer_account, value: amount}).then(
+						function(){
+							//contract's new balance
+							var Balance =  web3.eth.getBalance(contract.address).toNumber();
+							console.log("Contract's Balance after a ticket sell : " + Balance);
+							return contract.getTicket.call(customer_account);
+						}).then(
+							function(ticket){
+								console.log("Ticket before check-in : " + ticket);
+								assert.equal(ticket, "4,false" , "Doesn't match!");
+								return contract.checkin({from: customer_account});
+						}).then(
+							function(){
+								return contract.getTicket.call(customer_account);
+							}).then(
+									function(ticket){
+										console.log("Ticket after check-in : " + ticket);
+										assert.equal(ticket, "4,true" , "Doesn't match!");		
+										done();
+										}
+									).catch(done);
+				}).catch(done);
+              console.log("Sixth Test ends");
+		})
+
+
+		// Seventh Test for check-in transaction
+		it("Should not let you to use a Ticket", function(done) {
+        	console.log("Seventh Test starts");
+			ShowTickets.deployed().then(
+				function(contract){
+				
+					var amount = web3.toWei(.05,'ether');
+					var initialBalance =  web3.eth.getBalance(contract.address).toNumber();
+					var buyerBalance = web3.eth.getBalance(customer_account).toNumber();
+					console.log("Contract's initial Balance: " + initialBalance);
+					console.log("Buyer's initial Balance: " + buyerBalance);
+
+					// call the function that is actually a transaction
+					contract.buyTicket({from: customer_account, value: amount}).then(
+						function(){
+							//contract's new balance
+							var Balance =  web3.eth.getBalance(contract.address).toNumber();
+							console.log("Contract's Balance after a ticket sell : " + Balance);
+							return contract.getTicket.call(customer_account);
+						}).then(
+							function(ticket){
+								console.log("Ticket before check-in : " + ticket);
+								return contract.checkin({from: customer_account});
+						}).then(
+							function(){
+								return contract.getTicket.call(accounts[2]);
+							}).then(
+									function(ticket){
+										console.log("Ticket after check-in : " + ticket);
+										done();
+										}
+									).catch(done);
+				}).catch(done);
+              console.log("Seventh Test ends");
 		})
 
 

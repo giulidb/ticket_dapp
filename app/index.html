@@ -20,8 +20,8 @@
     Num Tickets Left: <span id="numTickets"></span>
   </div>
    <hr/>
-   <div class="section">
   <br>
+  <div class="section">
   <h1>Buy a Ticket</h1>
   <br><label for="amount">Ticket Price: <span id="ticket_price"></span> ETH
    <div class="section">
@@ -29,14 +29,16 @@
   <br><br><button id="buy" onclick="App.buy()">Buy Ticket</button>
   </div>
   <span id="status"></span>
-  </div>
   <br>
+  </div>
   <hr/>
   <div class="section">
-  <h1>Events</h1>
+  <h1>My Ticket</h1>
   <br>
-  <span id="events"></span>
-  </div>
+  <span id="tickets"></span>
   <br><br>
+  <span id="used"></span>
+  <br><br><button id="use" onclick="App.use()">Check-in</button>
+  </div>
 </body>
 </html>

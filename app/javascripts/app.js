@@ -14,8 +14,10 @@ var ShowTickets = contract(ShowTickets_artifacts);
 var accounts;
 var customer_account;
 var ticket_amount;
-var events;
+var PaymentEvent;
+var CheckinEvent;
 var numTickets;
+var buyers = [];
 
 window.App = {
   start: function() {
@@ -48,17 +50,30 @@ window.App = {
            organizer_address.innerHTML = instance.address;
           
            // Start watching events
-          events = instance.allEvents( 
+          PaymentEvent = instance.TicketPayed( 
               function(error, log){
                   if (!error){
                     console.log(log);
-                    var eventlog = document.getElementById("events");
-                    eventlog.innerHTML = "Event: " + log.event 
-                                       + "; Buyer's address: " + log.args._from.valueOf()
-                                       + "; Ticket Id: " + log.args._id.valueOf();
+                    var myTickets = document.getElementById("tickets");
+                    myTickets.innerHTML = "Ticket num: " + log.args._id.valueOf() + "<br />"
+                                       + "Buyer's address: " + log.args._from.valueOf() + "<br />"
+                                       + "At time: " + new Date(log.args._timestamp.valueOf()*1000);
+                    var usedTickets = document.getElementById("used");
+                    usedTickets.innerHTML= "";                                 
+                    buyers.push(log.args._from.valueOf());                   
                 }else
                     console.log(error);   
               });
+
+           CheckinEvent = instance.Checkin( 
+              function(error, log){
+                  if (!error){
+                    console.log(log);
+                    var usedTickets = document.getElementById("used");
+                    usedTickets.innerHTML = "Used at time: " + new Date(log.args._timestamp.valueOf()*1000);              
+                }else
+                    console.log(error);   
+              });   
 
            // Get ticket's price 
            return instance.ticketPrice.call();
@@ -87,12 +102,12 @@ window.App = {
     console.log(message);
     alert(message);
   },
-
- refreshValues: function() {
+  
+ refreshValues: function(){
     console.log("Refresh Values");
     var self = this;
     var contract;
-    //console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + web3.eth.getBlock(web3.eth.blockNumber).timestamp);
+    console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
       return contract.organizer.call();
@@ -125,6 +140,12 @@ window.App = {
       return;
     }
     var buyer = document.getElementById("buyer").value;
+    for(var i = 0; i < buyer.length; i++){
+      if(buyers[i] == buyer){
+         self.showMessage("You already have a ticket for this show");
+         return;
+      }
+    }
     this.setStatus("Initiating transaction... (please wait)");
     console.log("Buy function");
     var contract;
@@ -135,24 +156,28 @@ window.App = {
     }).then(function(result) {
       self.setStatus("Transaction complete!");
       self.refreshValues();
-      
-      // result is an object with the following values:
-      // result.tx      => transaction hash, string
-      // result.logs    => array of decoded events that were triggered within this transaction
-      // result.receipt => transaction receipt object, which includes gas used
-
-      // We can loop through result.logs to see if we triggered the Transfer event.
-      for (var i = 0; i < result.logs.length; i++) {
-          var log = result.logs[i];
-      if (log.event == "TicketPayed") {
-          console.log("Event: "+log.event);
-        break;
-       }
-      }
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error buying ticket; see log.");
     });
+  },
+
+  use: function(){
+      var self = this;
+      console.log("Use function");
+      var contract;
+      var buyer = document.getElementById("buyer").value;
+      ShowTickets.deployed().then(function(instance) {
+      contract = instance;
+      return contract.checkin({from: buyer});
+             }).then(
+                  function(result) {
+                   // self.setStatus("Transaction complete!");
+                  }).catch(
+                          function(e) {
+                              console.log(e);
+                              self.setStatus("Error use ticket; see log.");
+                          });
   }
 };
 
