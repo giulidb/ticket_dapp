@@ -12,12 +12,15 @@ import ShowTickets_artifacts from '../../build/contracts/ShowTickets.json'
 var ShowTickets = contract(ShowTickets_artifacts);
 
 var accounts;
-var customer_account;
 var ticket_amount;
 var PaymentEvent;
 var CheckinEvent;
 var numTickets;
 var buyers = [];
+var tickets = [];
+var select;
+var logs;
+
 
 window.App = {
   start: function() {
@@ -41,6 +44,8 @@ window.App = {
 
       accounts = accs;
       document.getElementById("buyer").value = accounts[1].toString();
+      select = document.getElementById("select");
+      logs = document.getElementById("logs");
 
        ShowTickets.deployed().then(function(instance) {
 
@@ -50,16 +55,12 @@ window.App = {
            organizer_address.innerHTML = instance.address;
           
            // Start watching events
-          PaymentEvent = instance.TicketPayed( 
+          PaymentEvent = instance.TicketPayed(
               function(error, log){
                   if (!error){
                     console.log(log);
-                    var myTickets = document.getElementById("tickets");
-                    myTickets.innerHTML = "Ticket num: " + log.args._id.valueOf() + "<br />"
-                                       + "Buyer's address: " + log.args._from.valueOf() + "<br />"
-                                       + "At time: " + new Date(log.args._timestamp.valueOf()*1000);
-                    var usedTickets = document.getElementById("used");
-                    usedTickets.innerHTML= "";                                 
+                    self.setStatus("User with address: " + log.args._from.valueOf()  
+                                   + " bought a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));
                     buyers.push(log.args._from.valueOf());                   
                 }else
                     console.log(error);   
@@ -68,16 +69,17 @@ window.App = {
            CheckinEvent = instance.Checkin( 
               function(error, log){
                   if (!error){
-                    console.log(log);
-                    var usedTickets = document.getElementById("used");
-                    usedTickets.innerHTML = "Used at time: " + new Date(log.args._timestamp.valueOf()*1000);              
+                    console.log(log);                    
+                    self.setStatus("User with address: " + log.args.user.valueOf()
+                                   + " used a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));   
+                               
                 }else
                     console.log(error);   
               });   
 
            // Get ticket's price 
            return instance.ticketPrice.call();
-       }).then(function(ticket_price){
+           }).then(function(ticket_price){
                   var price = document.getElementById("ticket_price");
                   ticket_amount = ticket_price.valueOf()
                   console.log(ticket_amount);
@@ -94,8 +96,8 @@ window.App = {
   },
 
   setStatus: function(message) {
-    var status = document.getElementById("status");
-    status.innerHTML = message;
+    var logs = document.getElementById("logs");
+    logs.innerHTML = message;
   },
 
   showMessage: function(message){
@@ -155,6 +157,11 @@ window.App = {
       return contract.buyTicket({from: buyer, value: ticket_amount});
     }).then(function(result) {
       self.setStatus("Transaction complete!");
+      tickets.push(buyer);
+      var opt = document.createElement('option');
+      opt.value = 1;
+      opt.innerHTML = "Num: " + tickets.length + " Address: " + buyer;
+      select.appendChild(opt);
       self.refreshValues();
     }).catch(function(e) {
       console.log(e);
@@ -166,13 +173,15 @@ window.App = {
       var self = this;
       console.log("Use function");
       var contract;
-      var buyer = document.getElementById("buyer").value;
+      var index = select.options.selectedIndex
+      var buyer = tickets[index];
       ShowTickets.deployed().then(function(instance) {
       contract = instance;
       return contract.checkin({from: buyer});
              }).then(
                   function(result) {
-                   // self.setStatus("Transaction complete!");
+                   tickets.splice(index, 1);
+                   select.options.remove(index);
                   }).catch(
                           function(e) {
                               console.log(e);

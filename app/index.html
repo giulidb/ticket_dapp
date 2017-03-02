@@ -6,39 +6,46 @@
   <script src="./app.js"></script>
 </head>
 <body>
-  <h1>Ticket Wallet</h1>
+  <h1>Event Show</h1>
   <br>
   <h2>an Ethereum Truffle Dapp</h2>
   <hr/>
   <div class="section">
-    Contract deployed at: <div id="contractAddress"></div>
+  <br>Contract deployed at: <div id="contractAddress"></div>
   </div><br>
   <div class="section">
-    Organizer address: <span id="organizer"></span>
+    Organizer address: <br> <span id="organizer"></span>
   </div><br>
   <div class="section">
-    Num Tickets Left: <span id="numTickets"></span>
+    Tickets still available: <span id="numTickets"></span>
   </div>
    <hr/>
-  <br>
   <div class="section">
-  <h1>Buy a Ticket</h1>
-  <br><label for="amount">Ticket Price: <span id="ticket_price"></span> ETH
-   <div class="section">
+  <h4>Buy a Ticket</h4>
   <br>My Address:<input type="text" id="buyer" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
-  <br><br><button id="buy" onclick="App.buy()">Buy Ticket</button>
+  <br><br>
+  <div style="display: inline">
+  <button id="buy" onclick="App.buy()">Buy Ticket</button>  
+  Ticket Price: <span id="ticket_price"></span> ETH
   </div>
   <span id="status"></span>
-  <br>
   </div>
   <hr/>
+  <h4>My Ticket</h4>
   <div class="section">
-  <h1>My Ticket</h1>
+   Select one of your tickets to perform a check-in and be allowed to enjoy the show!
   <br>
-  <span id="tickets"></span>
-  <br><br>
-  <span id="used"></span>
+  <select id = "select">
+  </select>
   <br><br><button id="use" onclick="App.use()">Check-in</button>
+  </div>
+  <div class="section">
+  <br>
+  <hr/>
+  <h4>Contract Events</h4>
+  <br>
+  <span id="logs"></span>
+  <br><br>
   </div>
 </body>
 </html>

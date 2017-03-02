@@ -92,7 +92,7 @@ contract ShowTickets{
        // raising the call stack to 1023. It is always safer
        // to let the recipient withdraw their money themselves.	    
        
-	   if(ticketSold >= numTickets){
+	   if(ticketSold >= numTickets || ticketOf[msg.sender].num != 0){
 	       // throw ensures funds will be returned
 	       throw;
 	   }

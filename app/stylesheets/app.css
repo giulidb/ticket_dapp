@@ -1,6 +1,6 @@
 body {
-  margin-left: 25%;
-  margin-right: 25%;
+  margin-left: 20%;
+  margin-right: 20%;
   margin-top: 10%;
   font-family: "Open Sans", sans-serif;
 }
@@ -21,7 +21,7 @@ button {
   padding: 5px;
 }
 
-h1, h2 {
+h1, h2 ,h4 {
   display: inline-block;
   vertical-align: middle;
   margin-top: 0px;
@@ -30,13 +30,18 @@ h1, h2 {
 
 h2 {
   color: #AAA;
-  font-size: 32px;
+  font-size: 24px;
 }
 
 h3 {
   font-weight: normal;
   color: #AAA;
   font-size: 24px;
+}
+
+h4 {
+    color: black;
+    font-size: 24px;
 }
 
 .black {
