@@ -22562,10 +22562,190 @@ module.exports = {
 			"links": {},
 			"address": "0x4e30ce2f7ad357b490339e06c9506c0392481da0",
 			"updated_at": 1488639483166
+		},
+		"1488788366370": {
+			"events": {
+				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_from",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "TicketPayed",
+					"type": "event"
+				},
+				"0x7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_owner",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "RevenueCollected",
+					"type": "event"
+				},
+				"0x7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_to",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						}
+					],
+					"name": "UserRefunded",
+					"type": "event"
+				},
+				"0xda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "user",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "Checkin",
+					"type": "event"
+				}
+			},
+			"links": {},
+			"address": "0x4c0dc94ed2556018f64cbf053927135d33b11fc3",
+			"updated_at": 1488788390765
+		},
+		"1488792922028": {
+			"events": {
+				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_from",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "TicketPayed",
+					"type": "event"
+				},
+				"0x7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_owner",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "RevenueCollected",
+					"type": "event"
+				},
+				"0x7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "_to",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_amount",
+							"type": "uint256"
+						}
+					],
+					"name": "UserRefunded",
+					"type": "event"
+				},
+				"0xda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae": {
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "user",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "_timestamp",
+							"type": "uint256"
+						}
+					],
+					"name": "Checkin",
+					"type": "event"
+				}
+			},
+			"links": {},
+			"address": "0x85401dc8e3d0e65ae831c6a377d204f2a5b4210f",
+			"updated_at": 1488792966064
 		}
 	},
 	"schema_version": "0.0.5",
-	"updated_at": 1488639483166
+	"updated_at": 1488792966064
 };
 
 /***/ }),
@@ -36371,7 +36551,8 @@ window.App = {
       select = document.getElementById("select");
       logs = document.getElementById("logs");
 
-       ShowTickets.deployed().then(function(instance) {
+       //ShowTickets.deployed()
+        ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
 
            console.log("Contract's parameter: ");          
            // Get contract's address 
@@ -36385,7 +36566,10 @@ window.App = {
                     console.log(log);
                     self.setStatus("User with address: " + log.args._from.valueOf()  
                                    + " bought a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));
-                    buyers.push(log.args._from.valueOf());                   
+                    self.refreshValues();
+                    buyers.push(log.args._from.valueOf());   
+                    
+                
                 }else
                     console.log(error);   
               });
@@ -36396,7 +36580,7 @@ window.App = {
                     console.log(log);                    
                     self.setStatus("User with address: " + log.args.user.valueOf()
                                    + " used a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));   
-                               
+                    self.refreshValues();                               
                 }else
                     console.log(error);   
               });   
@@ -36434,7 +36618,8 @@ window.App = {
     var self = this;
     var contract;
    // console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
-    ShowTickets.deployed().then(function(instance) {
+   // ShowTickets.deployed()
+    ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
       contract = instance;
       web3.eth.getBalance(instance.address,function(error, result) {
           var contract_balance = document.getElementById("balance");
@@ -36479,7 +36664,8 @@ window.App = {
     this.setStatus("Initiating transaction... (please wait)");
     console.log("Buy function");
     var contract;
-    ShowTickets.deployed().then(function(instance) {
+    //ShowTickets.deployed()
+     ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
       contract = instance;
       
       return contract.buyTicket({from: buyer, value: ticket_amount});
@@ -36503,7 +36689,8 @@ window.App = {
       var contract;
       var index = select.options.selectedIndex
       var buyer = tickets[index];
-      ShowTickets.deployed().then(function(instance) {
+      //ShowTickets.deployed()
+      ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
       contract = instance;
       return contract.checkin({from: buyer});
              }).then(

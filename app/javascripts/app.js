@@ -47,7 +47,8 @@ window.App = {
       select = document.getElementById("select");
       logs = document.getElementById("logs");
 
-       ShowTickets.deployed().then(function(instance) {
+       //ShowTickets.deployed()
+        ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
 
            console.log("Contract's parameter: ");          
            // Get contract's address 
@@ -61,7 +62,10 @@ window.App = {
                     console.log(log);
                     self.setStatus("User with address: " + log.args._from.valueOf()  
                                    + " bought a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));
-                    buyers.push(log.args._from.valueOf());                   
+                    self.refreshValues();
+                    buyers.push(log.args._from.valueOf());   
+                    
+                
                 }else
                     console.log(error);   
               });
@@ -72,7 +76,7 @@ window.App = {
                     console.log(log);                    
                     self.setStatus("User with address: " + log.args.user.valueOf()
                                    + " used a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));   
-                               
+                    self.refreshValues();                               
                 }else
                     console.log(error);   
               });   
@@ -110,7 +114,8 @@ window.App = {
     var self = this;
     var contract;
    // console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
-    ShowTickets.deployed().then(function(instance) {
+   // ShowTickets.deployed()
+    ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
       contract = instance;
       web3.eth.getBalance(instance.address,function(error, result) {
           var contract_balance = document.getElementById("balance");
@@ -155,12 +160,13 @@ window.App = {
     this.setStatus("Initiating transaction... (please wait)");
     console.log("Buy function");
     var contract;
-    ShowTickets.deployed().then(function(instance) {
+    //ShowTickets.deployed()
+     ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
       contract = instance;
       
       return contract.buyTicket({from: buyer, value: ticket_amount});
     }).then(function(result) {
-      self.setStatus("Transaction complete!");
+      self.setStatus("Transaction complete! Please wait for block creation...");
       tickets.push(buyer);
       var opt = document.createElement('option');
       opt.value = 1;
@@ -175,15 +181,18 @@ window.App = {
 
   use: function(){
       var self = this;
+      this.setStatus("Initiating transaction... (please wait)");
       console.log("Use function");
       var contract;
       var index = select.options.selectedIndex
       var buyer = tickets[index];
-      ShowTickets.deployed().then(function(instance) {
+      //ShowTickets.deployed()
+      ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
       contract = instance;
       return contract.checkin({from: buyer});
              }).then(
                   function(result) {
+                   self.setStatus("Transaction complete! Please wait for block creation...");
                    tickets.splice(index, 1);
                    select.options.remove(index);
                   }).catch(
