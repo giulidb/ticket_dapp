@@ -43,7 +43,7 @@ window.App = {
       }
 
       accounts = accs;
-      document.getElementById("buyer").value = accounts[1].toString();
+      //document.getElementById("buyer").value = accounts[1].toString();
       select = document.getElementById("select");
       logs = document.getElementById("logs");
 
@@ -51,8 +51,8 @@ window.App = {
 
            console.log("Contract's parameter: ");          
            // Get contract's address 
-           var organizer_address = document.getElementById("contractAddress");
-           organizer_address.innerHTML = instance.address;
+           var contract_address = document.getElementById("contractAddress");
+           contract_address.innerHTML = instance.address;
           
            // Start watching events
           PaymentEvent = instance.TicketPayed(
@@ -109,9 +109,13 @@ window.App = {
     console.log("Refresh Values");
     var self = this;
     var contract;
-    console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
+   // console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
     ShowTickets.deployed().then(function(instance) {
       contract = instance;
+      web3.eth.getBalance(instance.address,function(error, result) {
+          var contract_balance = document.getElementById("balance");
+          contract_balance.innerHTML = web3.fromWei(result.toNumber(),"ether");
+        });
       return contract.organizer.call();
     }).then(function(value) {
       var organizer_address = document.getElementById("organizer");
