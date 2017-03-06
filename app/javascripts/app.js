@@ -15,6 +15,7 @@ var accounts;
 var ticket_amount;
 var PaymentEvent;
 var CheckinEvent;
+var CollectEvent;
 var numTickets;
 var buyers = [];
 var tickets = [];
@@ -48,7 +49,7 @@ window.App = {
       logs = document.getElementById("logs");
 
        //ShowTickets.deployed()
-        ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
+        ShowTickets.at('0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3').then(function(instance) {
 
            console.log("Contract's parameter: ");          
            // Get contract's address 
@@ -79,7 +80,19 @@ window.App = {
                     self.refreshValues();                               
                 }else
                     console.log(error);   
-              });   
+              }); 
+
+           CollectEvent = instance.RevenueCollected( 
+              function(error, log){
+                  if (!error){
+                    console.log(log);                    
+                    self.setStatus("Organizer with address: " + log.args._owner.valueOf()
+                                   + " has collected the whole contract's balance: " + log.args._amount.valueOf()
+                                   + " at time: " + new Date(log.args._timestamp.valueOf()*1000));   
+                    self.refreshValues();                               
+                }else
+                    console.log(error);   
+              });        
 
            // Get ticket's price 
            return instance.ticketPrice.call();
@@ -115,7 +128,7 @@ window.App = {
     var contract;
    // console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
    // ShowTickets.deployed()
-    ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
+    ShowTickets.at('0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3').then(function(instance) {
       contract = instance;
       web3.eth.getBalance(instance.address,function(error, result) {
           var contract_balance = document.getElementById("balance");
@@ -161,7 +174,7 @@ window.App = {
     console.log("Buy function");
     var contract;
     //ShowTickets.deployed()
-     ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
+     ShowTickets.at('0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3').then(function(instance) {
       contract = instance;
       
       return contract.buyTicket({from: buyer, value: ticket_amount});
@@ -187,7 +200,7 @@ window.App = {
       var index = select.options.selectedIndex
       var buyer = tickets[index];
       //ShowTickets.deployed()
-      ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
+      ShowTickets.at('0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3').then(function(instance) {
       contract = instance;
       return contract.checkin({from: buyer});
              }).then(

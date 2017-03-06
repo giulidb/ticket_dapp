@@ -36519,6 +36519,7 @@ var accounts;
 var ticket_amount;
 var PaymentEvent;
 var CheckinEvent;
+var CollectEvent;
 var numTickets;
 var buyers = [];
 var tickets = [];
@@ -36583,7 +36584,19 @@ window.App = {
                     self.refreshValues();                               
                 }else
                     console.log(error);   
-              });   
+              }); 
+
+           CollectEvent = instance.RevenueCollected( 
+              function(error, log){
+                  if (!error){
+                    console.log(log);                    
+                    self.setStatus("Organizer with address: " + log.args._owner.valueOf()
+                                   + " has collected the whole contract's balance: " + log.args._amount.valueOf()
+                                   + " at time: " + new Date(log.args._timestamp.valueOf()*1000));   
+                    self.refreshValues();                               
+                }else
+                    console.log(error);   
+              });        
 
            // Get ticket's price 
            return instance.ticketPrice.call();
@@ -36670,7 +36683,7 @@ window.App = {
       
       return contract.buyTicket({from: buyer, value: ticket_amount});
     }).then(function(result) {
-      self.setStatus("Transaction complete!");
+      self.setStatus("Transaction complete! Please wait for block creation...");
       tickets.push(buyer);
       var opt = document.createElement('option');
       opt.value = 1;
@@ -36685,6 +36698,7 @@ window.App = {
 
   use: function(){
       var self = this;
+      this.setStatus("Initiating transaction... (please wait)");
       console.log("Use function");
       var contract;
       var index = select.options.selectedIndex
@@ -36695,6 +36709,7 @@ window.App = {
       return contract.checkin({from: buyer});
              }).then(
                   function(result) {
+                   self.setStatus("Transaction complete! Please wait for block creation...");
                    tickets.splice(index, 1);
                    select.options.remove(index);
                   }).catch(
