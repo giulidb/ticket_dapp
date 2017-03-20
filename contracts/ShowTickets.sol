@@ -100,7 +100,7 @@ contract ShowTickets{
 	    ticketSold++;
 	    incomes += ticketPrice;
 	    ticketOf[msg.sender] = Ticket({num: ticketSold, used: false});
-	    TicketPayed(msg.sender, msg.value,ticketSold,now);
+	    TicketPayed(msg.sender, msg.value,ticketOf[msg.sender].num,now);
 	    	
 	}
 

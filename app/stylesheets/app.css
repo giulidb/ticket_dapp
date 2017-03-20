@@ -1,42 +1,51 @@
 body {
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 5%;
-  font-family: "Open Sans", sans-serif;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+    font-family: "Open Sans", sans-serif;
 }
 
 label {
-  display: inline-block;
-  width: 100px;
+    display: inline-block;
+    width: 100px;
 }
 
 input {
-  width: 400px;
-  padding: 5px;
-  font-size: 16px;
+    width: 400px;
+    padding: 5px;
+    font-size: 16px;
 }
 
 button {
-  font-size: 16px;
-  padding: 5px;
+    font-size: 18px;
+    padding: 12px 28px;
+    background-color: #FF383F;
+    border-radius: 8px;
+    color: white;
 }
 
-h1, h2 ,h4 {
-  display: inline-block;
-  vertical-align: middle;
-  margin-top: 0px;
-  margin-bottom: 10px;
+h1 {
+    color: #FFFFFF
+}
+
+h1,
+h2,
+h4 {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 0px;
+    margin-bottom: 10px;
 }
 
 h2 {
-  color: #AAA;
-  font-size: 24px;
+    color: #EFEFEF;
+    font-size: 24px;
 }
 
 h3 {
-  font-weight: normal;
-  color: #AAA;
-  font-size: 24px;
+    font-weight: normal;
+    color: #AAA;
+    font-size: 24px;
 }
 
 h4 {
@@ -45,24 +54,43 @@ h4 {
 }
 
 .black {
-  color: black;
+    color: black;
 }
 
 #balance {
-  color: black;
+    color: black;
 }
 
 .hint {
-  color: #666;
+    color: #666;
 }
 
-
 #left_col {
-   float:left;
-   width:60%;
+    float: left;
+    width: 60%;
+    background-color: #EFEFEF;
 }
 
 #right_col {
-   float:right;
-   width:40%;
+    float: right;
+    width: 40%;
+    background-color: #EFEFEF;
+}
+
+#wrap {
+    background-color: #FF383F;
+    padding: 5px;
+}
+
+#right_head {
+    float: right;
+    width: 40%;
+    color: white;
+    font-size: 15px;
+    font-style: bold;
+}
+
+#footer {
+    float: left;
+    background-color: #EFEFEF;
 }

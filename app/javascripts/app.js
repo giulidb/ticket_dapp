@@ -12,6 +12,7 @@ import ShowTickets_artifacts from '../../build/contracts/ShowTickets.json'
 var ShowTickets = contract(ShowTickets_artifacts);
 
 var accounts;
+var myAddr;
 var ticket_amount;
 var PaymentEvent;
 var CheckinEvent;
@@ -21,8 +22,10 @@ var buyers = [];
 var tickets = [];
 var select;
 var logs;
+var index;
 
-
+// rospsten var contract_address = '0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3';
+var contract_address = '0x229aaf003bdbccdd15708f4588ea300ec76e103b';
 window.App = {
   start: function() {
     var self = this;
@@ -44,17 +47,28 @@ window.App = {
       }
 
       accounts = accs;
+      myAddr = accounts[3];
+      console.log(accs);
+
       //document.getElementById("buyer").value = accounts[1].toString();
-      select = document.getElementById("select");
+      select = document.getElementById("select_use");
       logs = document.getElementById("logs");
 
        //ShowTickets.deployed()
-        ShowTickets.at('0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3').then(function(instance) {
+       // ShowTickets.at('0x229aaf003bdbccdd15708f4588ea300ec76e103b')
+       ShowTickets.deployed().then(function(instance) {
+
 
            console.log("Contract's parameter: ");          
-           // Get contract's address 
+           // Get contract's addr 
            var contract_address = document.getElementById("contractAddress");
            contract_address.innerHTML = instance.address;
+
+           //Get Account addr
+           var my_address =  document.getElementById("myAddress");
+           my_address.innerHTML = myAddr;
+
+           //Get Event date
           
            // Start watching events
           PaymentEvent = instance.TicketPayed(
@@ -62,7 +76,25 @@ window.App = {
                   if (!error){
                     console.log(log);
                     self.setStatus("User with address: " + log.args._from.valueOf()  
-                                   + " bought a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));
+                                   + " bought ticket num: " + log.args._id.valueOf() 
+                                   + " at time: " + new Date(log.args._timestamp.valueOf()*1000));
+
+                    ShowTickets.deployed().then(function(instance) {
+                      var contract = instance;
+                      console.log("inside event");
+                      return contract.getTicket.call(myAddr);
+                  }).then(function(value) {
+                     var opt = document.createElement('option');
+                             opt.value = 1;
+                             console.log(value);
+                             if(value[0] != 0 && value[1] == false){
+                                opt.innerHTML = "Num: " + value.valueOf();
+                                select.appendChild(opt);}      
+                }).catch(function(e) {
+                    console.log(e);
+                    self.setStatus("Error getting values; see log.");
+                });                
+
                     self.refreshValues();
                     buyers.push(log.args._from.valueOf());   
                     
@@ -77,7 +109,9 @@ window.App = {
                     console.log(log);                    
                     self.setStatus("User with address: " + log.args.user.valueOf()
                                    + " used a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));   
-                    self.refreshValues();                               
+                    select.options.remove(index);
+                    self.refreshValues();
+                               
                 }else
                     console.log(error);   
               }); 
@@ -126,13 +160,20 @@ window.App = {
     console.log("Refresh Values");
     var self = this;
     var contract;
-   // console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
+
+      // console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
    // ShowTickets.deployed()
-    ShowTickets.at('0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3').then(function(instance) {
+   // ShowTickets.at(contract_address)
+    ShowTickets.deployed().then(function(instance) {
       contract = instance;
       web3.eth.getBalance(instance.address,function(error, result) {
           var contract_balance = document.getElementById("balance");
           contract_balance.innerHTML = web3.fromWei(result.toNumber(),"ether");
+        });
+         web3.eth.getBalance(myAddr,function(error, myresult) {
+          var my_balance = document.getElementById("mybalance");
+          console.log("my balance: "+ myresult);
+          my_balance.innerHTML = web3.fromWei(myresult.toNumber(),"ether");;
         });
       return contract.organizer.call();
     }).then(function(value) {
@@ -143,11 +184,15 @@ window.App = {
               var ticketsLeft = document.getElementById("numTickets");
               ticketsLeft.innerHTML = _numTickets.valueOf();
               numTickets = _numTickets.valueOf();
-          }
-
-      ).catch(function(e){
-            console.log(e);
-            self.setStatus("Error getting values; see log.");
+              contract.eventTime.call().then(
+                function(date){
+                    var date_el = document.getElementById("date");
+                    date_el.innerHTML = new Date(date*1000);});
+                  
+             
+          }).catch(function(e){
+             console.log(e);
+              self.setStatus("Error getting values; see log.");
       });
       
     }).catch(function(e) {
@@ -163,9 +208,8 @@ window.App = {
       self.showMessage("Tickets for this show are finished!");
       return;
     }
-    var buyer = document.getElementById("buyer").value;
-    for(var i = 0; i < buyer.length; i++){
-      if(buyers[i] == buyer){
+    for(var i = 0; i < buyers.length; i++){
+      if(buyers[i] == myAddr){
          self.showMessage("You already have a ticket for this show");
          return;
       }
@@ -174,19 +218,15 @@ window.App = {
     console.log("Buy function");
     var contract;
     //ShowTickets.deployed()
-     ShowTickets.at('0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3').then(function(instance) {
+    // ShowTickets.at(contract_address)
+    ShowTickets.deployed().then(function(instance) {
       contract = instance;
       
-      return contract.buyTicket({from: buyer, value: ticket_amount});
+      return contract.buyTicket({from: myAddr, value: ticket_amount});
     }).then(function(result) {
-      self.setStatus("Transaction complete! Please wait for block creation...");
-      tickets.push(buyer);
-      var opt = document.createElement('option');
-      opt.value = 1;
-      opt.innerHTML = "Num: " + tickets.length + " Address: " + buyer;
-      select.appendChild(opt);
-      self.refreshValues();
-    }).catch(function(e) {
+        self.setStatus("Transaction complete! Please wait for block creation...");
+        tickets.push(myAddr);
+      }).catch(function(e) {
       console.log(e);
       self.setStatus("Error buying ticket; see log.");
     });
@@ -197,17 +237,15 @@ window.App = {
       this.setStatus("Initiating transaction... (please wait)");
       console.log("Use function");
       var contract;
-      var index = select.options.selectedIndex
-      var buyer = tickets[index];
-      //ShowTickets.deployed()
-      ShowTickets.at('0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3').then(function(instance) {
+      index = select.options.selectedIndex
+            //ShowTickets.deployed()
+      //ShowTickets.at(contract_address)
+      ShowTickets.deployed().then(function(instance) {
       contract = instance;
-      return contract.checkin({from: buyer});
+      return contract.checkin({from: myAddr});
              }).then(
                   function(result) {
                    self.setStatus("Transaction complete! Please wait for block creation...");
-                   tickets.splice(index, 1);
-                   select.options.remove(index);
                   }).catch(
                           function(e) {
                               console.log(e);

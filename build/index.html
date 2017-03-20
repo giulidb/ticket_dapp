@@ -1,59 +1,77 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Ticket Dapp </title>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <script src="./app.js"></script>
+    <title>An Ethereum Ticket Dapp </title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <script src="./app.js"></script>
 </head>
+
 <body>
-<div id=wrap>  
-  <h1>Event Show</h1>
-  <br>
-  <h2>an Ethereum Truffle Dapp</h2>
-  <hr/>
-  <div id="right_col">
-    <div class="section">
-    <h4>Contract Information</h4>
-      <br>Contract deployed at: <div id="contractAddress"></div>
-    </div><br>
-    <div class="section">
-      Organizer address: <br> <span id="organizer"></span>
-    </div><br>
-    <div class="section">
-      Tickets still available: <span id="numTickets"></span>
+    <div id=wrap>
+        <h1>Music Festival Tickets</h1>
+        <br>
+        <h2>an Ethereum Truffle Dapp</h2>
+        <div id="right_head">
+            Event Date:<br> <span id="date"></span>
+        </div>
+
     </div>
-    <div class="section">
-      Contract's balance: <span id="balance"></span> ETH
+    <hr/>
+    <div id="footer">
+        <div id="right_col">
+            <div class="section">
+                <h4>Contract Info</h4>
+                <br>Contract deployed at: <span id="contractAddress"></span>
+            </div><br>
+            <div class="section">
+                Organizer address: <br> <span id="organizer"></span>
+            </div><br>
+            <div class="section">
+                Tickets still available: <span id="numTickets"></span>
+            </div>
+            <div class="section">
+                Contract's balance: <span id="balance"></span> ETH
+            </div>
+            <br>
+            <div class="section">
+                <h4> My Account Info</h4>
+                <br>Address: <span id="myAddress"></span>
+            </div><br>
+            <div class="section">
+                Balance: <span id="mybalance"></span> ETH
+            </div>
+        </div>
+        <div id="left_col">
+            <div class="section">
+                <h4>Buy Ticket</h4>
+                <br><select id="select_num">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select><br><br>
+                <div style="display: inline">
+                    <button id="buy" onclick="App.buy()">Buy</button> Ticket Price: <span id="ticket_price"></span> ETH
+                </div>
+                <span id="status"></span>
+            </div>
+            <br><br>
+            <h4>My Ticket</h4>
+            <div class="section">
+                Select one of your tickets to perform a check-in and be allowed to enjoy the show!
+                <br><select id="select_use"></select>
+                <br><br><button id="use" onclick="App.use()">Check-in</button>
+            </div>
+        </div>
+        <br><br><br>
+        <div class="section">
+            <br>
+            <h4>Contract Events</h4>
+            <br><span id="logs"></span>
+            <br><br>
+        </div>
     </div>
-  </div>
-  <div id="left_col">
-    <div class="section">
-    <h4>Buy a Ticket</h4>
-    <br><input type="text" id="buyer" placeholder="My Address"></input>
-    <br><br>
-    <div style="display: inline">
-      <button id="buy" onclick="App.buy()">Buy Ticket</button>  
-      Ticket Price: <span id="ticket_price"></span> ETH
-    </div>
-    <span id="status"></span>
-    </div>
-    <br><br>
-    <h4>My Ticket</h4>
-    <div class="section">
-      Select one of your tickets to perform a check-in and be allowed to enjoy the show!
-      <br>
-      <select id = "select">
-      </select>
-      <br><br><button id="use" onclick="App.use()">Check-in</button>
-    </div>
-    <div class="section">
-    <br>
-    <h4>Contract Events</h4>
-    <br>
-    <span id="logs"></span>
-    <br><br>
-    </div>
-  </div>
-</div>  
 </body>
+
 </html>

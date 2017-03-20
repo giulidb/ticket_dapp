@@ -22201,9 +22201,9 @@ module.exports = {
 			"type": "event"
 		}
 	],
-	"unlinked_binary": "0x606060405234610000576040516060806106408339810160409081528151602083015191909201515b60008054600160a060020a03191633600160a060020a031617815560018490556002839055600382905560048190556005555b5050505b6105d28061006e6000396000f3006060604052361561009e5763ffffffff60e060020a6000350416630c317e7b81146100a35780631209b1f6146100c2578063353d90ec146100e15780633ccfd60b146101005780634717dea914610121578063485cc439146101535780636120326514610172578063735a33261461019b57806383197ef0146101ba578063baeb0718146101c9578063d749e7d6146101ea578063edca914c14610209575b610000565b34610000576100b0610213565b60408051918252519081900360200190f35b34610000576100b0610219565b60408051918252519081900360200190f35b34610000576100b061021f565b60408051918252519081900360200190f35b346100005761010d610225565b604080519115158252519081900360200190f35b346100005761013a600160a060020a03600435166102f0565b6040805192835290151560208301528051918290030190f35b34610000576100b0610319565b60408051918252519081900360200190f35b346100005761017f61031f565b60408051600160a060020a039092168252519081900360200190f35b34610000576100b061032e565b60408051918252519081900360200190f35b34610000576101c7610339565b005b346100005761010d610365565b604080519115158252519081900360200190f35b34610000576100b0610425565b60408051918252519081900360200190f35b6101c761042b565b005b60015481565b60025481565b60035481565b60008054819033600160a060020a0390811691161461024357610000565b6000600554111561009e5750600580546000918290556040519091600160a060020a0333169183156108fc0291849190818181858888f19350505050156102d55760408051600160a060020a033316815260208101839052428183015290517f7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c9181900360600190a1600191506102df565b6005819055600091505b5b6102ea565b610000565b5b5b5090565b600160a060020a0381166000908152600660205260409020805460019091015460ff165b915091565b60045481565b600054600160a060020a031681565b600454600354035b90565b60005433600160a060020a0390811691161461035457610000565b600054600160a060020a0316ff5b5b565b600160a060020a03331660009081526006602052604081205415806103aa5750600160a060020a033316600090815260066020526040902060019081015460ff161515145b156103b757506000610336565b600160a060020a0333166000818152600660209081526040918290206001908101805460ff191690911790558151928352429083015280517fda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae9281900390910190a1506001610336565b5b90565b60055481565b600154421061043957610000565b600254338134101561044a57610000565b6003546004541015806104745750600160a060020a03331660009081526006602052604090205415155b1561047e57610000565b6004805460019081018083556002546005805490910190556040805180820182529182526000602080840182815233600160a060020a03168084526006835292849020945185555193909401805460ff1916931515939093179092559254835191825234928201929092528083019190915242606082015290517f52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526916080908290030190a15b8134111561059f57604051600160a060020a038216903484900380156108fc02916000818181858888f193505050501561059f5760408051600160a060020a038316815234849003602082015281517f7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50929181900390910190a15b5b5b50505b5600a165627a7a723058207e534d0d8e6572fd0f1460d68abcd0502ebe98084f1dd97f2ba501742298dd040029",
+	"unlinked_binary": "0x606060405234610000576040516060806106408339810160409081528151602083015191909201515b60008054600160a060020a03191633600160a060020a031617815560018490556002839055600382905560048190556005555b5050505b6105d28061006e6000396000f3006060604052361561009e5763ffffffff60e060020a6000350416630c317e7b81146100a35780631209b1f6146100c2578063353d90ec146100e15780633ccfd60b146101005780634717dea914610121578063485cc439146101535780636120326514610172578063735a33261461019b57806383197ef0146101ba578063baeb0718146101c9578063d749e7d6146101ea578063edca914c14610209575b610000565b34610000576100b0610213565b60408051918252519081900360200190f35b34610000576100b0610219565b60408051918252519081900360200190f35b34610000576100b061021f565b60408051918252519081900360200190f35b346100005761010d610225565b604080519115158252519081900360200190f35b346100005761013a600160a060020a03600435166102f0565b6040805192835290151560208301528051918290030190f35b34610000576100b0610319565b60408051918252519081900360200190f35b346100005761017f61031f565b60408051600160a060020a039092168252519081900360200190f35b34610000576100b061032e565b60408051918252519081900360200190f35b34610000576101c7610339565b005b346100005761010d610365565b604080519115158252519081900360200190f35b34610000576100b0610425565b60408051918252519081900360200190f35b6101c761042b565b005b60015481565b60025481565b60035481565b60008054819033600160a060020a0390811691161461024357610000565b6000600554111561009e5750600580546000918290556040519091600160a060020a0333169183156108fc0291849190818181858888f19350505050156102d55760408051600160a060020a033316815260208101839052428183015290517f7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c9181900360600190a1600191506102df565b6005819055600091505b5b6102ea565b610000565b5b5b5090565b600160a060020a0381166000908152600660205260409020805460019091015460ff165b915091565b60045481565b600054600160a060020a031681565b600454600354035b90565b60005433600160a060020a0390811691161461035457610000565b600054600160a060020a0316ff5b5b565b600160a060020a03331660009081526006602052604081205415806103aa5750600160a060020a033316600090815260066020526040902060019081015460ff161515145b156103b757506000610336565b600160a060020a0333166000818152600660209081526040918290206001908101805460ff191690911790558151928352429083015280517fda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae9281900390910190a1506001610336565b5b90565b60055481565b600154421061043957610000565b600254338134101561044a57610000565b6003546004541015806104745750600160a060020a03331660009081526006602052604090205415155b1561047e57610000565b600480546001908101918290556002546005805490910190556040805180820182529283526000602080850182815233600160a060020a031680845260068352928490209551808755905195909401805460ff1916951515959095179094558151908152349381019390935282810191909152426060830152517f52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526916080908290030190a15b8134111561059f57604051600160a060020a038216903484900380156108fc02916000818181858888f193505050501561059f5760408051600160a060020a038316815234849003602082015281517f7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50929181900390910190a15b5b5b50505b5600a165627a7a723058204f9ddd176aeb57ea795ac326223c916f3b9b8f7ca3f70f721e96fed8cdbe6d970029",
 	"networks": {
-		"1488627183455": {
+		"1489998577355": {
 			"events": {
 				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
 					"anonymous": false,
@@ -22290,10 +22290,10 @@ module.exports = {
 				}
 			},
 			"links": {},
-			"address": "0x8632141b4d5cbaf55ff24e735f5265c2ca2f1983",
-			"updated_at": 1488627674394
+			"address": "0xc4868a80d05dd562a7f68e1e112d02a1538640a2",
+			"updated_at": 1490011675071
 		},
-		"1488628346732": {
+		"1490016957285": {
 			"events": {
 				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
 					"anonymous": false,
@@ -22380,372 +22380,12 @@ module.exports = {
 				}
 			},
 			"links": {},
-			"address": "0x9fef718f0a5eb529dec9882d48d23fe5ae2f5816",
-			"updated_at": 1488628353095
-		},
-		"1488639093008": {
-			"events": {
-				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_id",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "TicketPayed",
-					"type": "event"
-				},
-				"0x7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_owner",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "RevenueCollected",
-					"type": "event"
-				},
-				"0x7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "UserRefunded",
-					"type": "event"
-				},
-				"0xda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "user",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "Checkin",
-					"type": "event"
-				}
-			},
-			"links": {},
-			"address": "0xee8fde8868df0f332b45be97575750f261a33a00",
-			"updated_at": 1488639306256
-		},
-		"1488639455227": {
-			"events": {
-				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_id",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "TicketPayed",
-					"type": "event"
-				},
-				"0x7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_owner",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "RevenueCollected",
-					"type": "event"
-				},
-				"0x7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "UserRefunded",
-					"type": "event"
-				},
-				"0xda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "user",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "Checkin",
-					"type": "event"
-				}
-			},
-			"links": {},
-			"address": "0x4e30ce2f7ad357b490339e06c9506c0392481da0",
-			"updated_at": 1488639483166
-		},
-		"1488788366370": {
-			"events": {
-				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_id",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "TicketPayed",
-					"type": "event"
-				},
-				"0x7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_owner",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "RevenueCollected",
-					"type": "event"
-				},
-				"0x7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "UserRefunded",
-					"type": "event"
-				},
-				"0xda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "user",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "Checkin",
-					"type": "event"
-				}
-			},
-			"links": {},
-			"address": "0x4c0dc94ed2556018f64cbf053927135d33b11fc3",
-			"updated_at": 1488788390765
-		},
-		"1488792922028": {
-			"events": {
-				"0x52caa1b3704b09b296d562b928c316b8f55ddcfd972013df8a1aba872d48b526": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_from",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_id",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "TicketPayed",
-					"type": "event"
-				},
-				"0x7bf13ec77f235dc6a5aa70491a5d0437332806ee638a2d055781071de467ae2c": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_owner",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "RevenueCollected",
-					"type": "event"
-				},
-				"0x7b742095fd862a654f678473e0672300ad790a7c49739100c3c5dbd5222c2e50": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "_to",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_amount",
-							"type": "uint256"
-						}
-					],
-					"name": "UserRefunded",
-					"type": "event"
-				},
-				"0xda763d657043a37d5b6727921f1afb11f752742cbbd2590d990a8d3b9ff357ae": {
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "user",
-							"type": "address"
-						},
-						{
-							"indexed": false,
-							"name": "_timestamp",
-							"type": "uint256"
-						}
-					],
-					"name": "Checkin",
-					"type": "event"
-				}
-			},
-			"links": {},
-			"address": "0x85401dc8e3d0e65ae831c6a377d204f2a5b4210f",
-			"updated_at": 1488792966064
+			"address": "0xdb41da5f823c3cef2d35cfff4ac9b9ee28923022",
+			"updated_at": 1490022539816
 		}
 	},
 	"schema_version": "0.0.5",
-	"updated_at": 1488792966064
+	"updated_at": 1490022539816
 };
 
 /***/ }),
@@ -26027,7 +25667,7 @@ exports = module.exports = __webpack_require__(80)();
 
 
 // module
-exports.push([module.i, "body {\n  margin-left: 10%;\n  margin-right: 10%;\n  margin-top: 5%;\n  font-family: \"Open Sans\", sans-serif;\n}\n\nlabel {\n  display: inline-block;\n  width: 100px;\n}\n\ninput {\n  width: 400px;\n  padding: 5px;\n  font-size: 16px;\n}\n\nbutton {\n  font-size: 16px;\n  padding: 5px;\n}\n\nh1, h2 ,h4 {\n  display: inline-block;\n  vertical-align: middle;\n  margin-top: 0px;\n  margin-bottom: 10px;\n}\n\nh2 {\n  color: #AAA;\n  font-size: 24px;\n}\n\nh3 {\n  font-weight: normal;\n  color: #AAA;\n  font-size: 24px;\n}\n\nh4 {\n    color: black;\n    font-size: 24px;\n}\n\n.black {\n  color: black;\n}\n\n#balance {\n  color: black;\n}\n\n.hint {\n  color: #666;\n}\n\n\n#left_col {\n   float:left;\n   width:60%;\n}\n\n#right_col {\n   float:right;\n   width:40%;\n}", ""]);
+exports.push([module.i, "body {\n    margin-left: 10%;\n    margin-right: 10%;\n    margin-top: 5%;\n    font-family: \"Open Sans\", sans-serif;\n}\n\nlabel {\n    display: inline-block;\n    width: 100px;\n}\n\ninput {\n    width: 400px;\n    padding: 5px;\n    font-size: 16px;\n}\n\nbutton {\n    font-size: 18px;\n    padding: 12px 28px;\n    background-color: #FF383F;\n    border-radius: 8px;\n    color: white;\n}\n\nh1 {\n    color: #FFFFFF\n}\n\nh1,\nh2,\nh4 {\n    display: inline-block;\n    vertical-align: middle;\n    margin-top: 0px;\n    margin-bottom: 10px;\n}\n\nh2 {\n    color: #EFEFEF;\n    font-size: 24px;\n}\n\nh3 {\n    font-weight: normal;\n    color: #AAA;\n    font-size: 24px;\n}\n\nh4 {\n    color: black;\n    font-size: 24px;\n}\n\n.black {\n    color: black;\n}\n\n#balance {\n    color: black;\n}\n\n.hint {\n    color: #666;\n}\n\n#left_col {\n    float: left;\n    width: 60%;\n    background-color: #EFEFEF;\n}\n\n#right_col {\n    float: right;\n    width: 40%;\n    background-color: #EFEFEF;\n}\n\n#wrap {\n    background-color: #FF383F;\n    padding: 5px;\n}\n\n#right_head {\n    float: right;\n    width: 40%;\n    color: white;\n    font-size: 15px;\n    font-style: bold;\n}\n\n#footer {\n    float: left;\n    background-color: #EFEFEF;\n}", ""]);
 
 // exports
 
@@ -36516,6 +36156,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var ShowTickets = __WEBPACK_IMPORTED_MODULE_2_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_3__build_contracts_ShowTickets_json___default.a);
 
 var accounts;
+var myAddr;
 var ticket_amount;
 var PaymentEvent;
 var CheckinEvent;
@@ -36525,8 +36166,10 @@ var buyers = [];
 var tickets = [];
 var select;
 var logs;
+var index;
 
-
+// rospsten var contract_address = '0xc865076cE075D692ED5A2F3Cc21bF20b57ecD7e3';
+var contract_address = '0x229aaf003bdbccdd15708f4588ea300ec76e103b';
 window.App = {
   start: function() {
     var self = this;
@@ -36548,17 +36191,28 @@ window.App = {
       }
 
       accounts = accs;
+      myAddr = accounts[3];
+      console.log(accs);
+
       //document.getElementById("buyer").value = accounts[1].toString();
-      select = document.getElementById("select");
+      select = document.getElementById("select_use");
       logs = document.getElementById("logs");
 
        //ShowTickets.deployed()
-        ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
+       // ShowTickets.at('0x229aaf003bdbccdd15708f4588ea300ec76e103b')
+       ShowTickets.deployed().then(function(instance) {
+
 
            console.log("Contract's parameter: ");          
-           // Get contract's address 
+           // Get contract's addr 
            var contract_address = document.getElementById("contractAddress");
            contract_address.innerHTML = instance.address;
+
+           //Get Account addr
+           var my_address =  document.getElementById("myAddress");
+           my_address.innerHTML = myAddr;
+
+           //Get Event date
           
            // Start watching events
           PaymentEvent = instance.TicketPayed(
@@ -36566,7 +36220,25 @@ window.App = {
                   if (!error){
                     console.log(log);
                     self.setStatus("User with address: " + log.args._from.valueOf()  
-                                   + " bought a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));
+                                   + " bought ticket num: " + log.args._id.valueOf() 
+                                   + " at time: " + new Date(log.args._timestamp.valueOf()*1000));
+
+                    ShowTickets.deployed().then(function(instance) {
+                      var contract = instance;
+                      console.log("inside event");
+                      return contract.getTicket.call(myAddr);
+                  }).then(function(value) {
+                     var opt = document.createElement('option');
+                             opt.value = 1;
+                             console.log(value);
+                             if(value[0] != 0 && value[1] == false){
+                                opt.innerHTML = "Num: " + value.valueOf();
+                                select.appendChild(opt);}      
+                }).catch(function(e) {
+                    console.log(e);
+                    self.setStatus("Error getting values; see log.");
+                });                
+
                     self.refreshValues();
                     buyers.push(log.args._from.valueOf());   
                     
@@ -36581,7 +36253,9 @@ window.App = {
                     console.log(log);                    
                     self.setStatus("User with address: " + log.args.user.valueOf()
                                    + " used a ticket at time: " + new Date(log.args._timestamp.valueOf()*1000));   
-                    self.refreshValues();                               
+                    select.options.remove(index);
+                    self.refreshValues();
+                               
                 }else
                     console.log(error);   
               }); 
@@ -36630,13 +36304,20 @@ window.App = {
     console.log("Refresh Values");
     var self = this;
     var contract;
-   // console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
+
+      // console.log("Last block: "+  web3.eth.blockNumber + " Timestamp: " + new Date(web3.eth.getBlock(web3.eth.blockNumber).timestamp));
    // ShowTickets.deployed()
-    ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
+   // ShowTickets.at(contract_address)
+    ShowTickets.deployed().then(function(instance) {
       contract = instance;
       web3.eth.getBalance(instance.address,function(error, result) {
           var contract_balance = document.getElementById("balance");
           contract_balance.innerHTML = web3.fromWei(result.toNumber(),"ether");
+        });
+         web3.eth.getBalance(myAddr,function(error, myresult) {
+          var my_balance = document.getElementById("mybalance");
+          console.log("my balance: "+ myresult);
+          my_balance.innerHTML = web3.fromWei(myresult.toNumber(),"ether");;
         });
       return contract.organizer.call();
     }).then(function(value) {
@@ -36647,11 +36328,15 @@ window.App = {
               var ticketsLeft = document.getElementById("numTickets");
               ticketsLeft.innerHTML = _numTickets.valueOf();
               numTickets = _numTickets.valueOf();
-          }
-
-      ).catch(function(e){
-            console.log(e);
-            self.setStatus("Error getting values; see log.");
+              contract.eventTime.call().then(
+                function(date){
+                    var date_el = document.getElementById("date");
+                    date_el.innerHTML = new Date(date*1000);});
+                  
+             
+          }).catch(function(e){
+             console.log(e);
+              self.setStatus("Error getting values; see log.");
       });
       
     }).catch(function(e) {
@@ -36667,9 +36352,8 @@ window.App = {
       self.showMessage("Tickets for this show are finished!");
       return;
     }
-    var buyer = document.getElementById("buyer").value;
-    for(var i = 0; i < buyer.length; i++){
-      if(buyers[i] == buyer){
+    for(var i = 0; i < buyers.length; i++){
+      if(buyers[i] == myAddr){
          self.showMessage("You already have a ticket for this show");
          return;
       }
@@ -36678,19 +36362,15 @@ window.App = {
     console.log("Buy function");
     var contract;
     //ShowTickets.deployed()
-     ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
+    // ShowTickets.at(contract_address)
+    ShowTickets.deployed().then(function(instance) {
       contract = instance;
       
-      return contract.buyTicket({from: buyer, value: ticket_amount});
+      return contract.buyTicket({from: myAddr, value: ticket_amount});
     }).then(function(result) {
-      self.setStatus("Transaction complete! Please wait for block creation...");
-      tickets.push(buyer);
-      var opt = document.createElement('option');
-      opt.value = 1;
-      opt.innerHTML = "Num: " + tickets.length + " Address: " + buyer;
-      select.appendChild(opt);
-      self.refreshValues();
-    }).catch(function(e) {
+        self.setStatus("Transaction complete! Please wait for block creation...");
+        tickets.push(myAddr);
+      }).catch(function(e) {
       console.log(e);
       self.setStatus("Error buying ticket; see log.");
     });
@@ -36701,17 +36381,15 @@ window.App = {
       this.setStatus("Initiating transaction... (please wait)");
       console.log("Use function");
       var contract;
-      var index = select.options.selectedIndex
-      var buyer = tickets[index];
-      //ShowTickets.deployed()
-      ShowTickets.at('0xc8DdCcF6c7C38432e76646A20E127F2D95a9E924').then(function(instance) {
+      index = select.options.selectedIndex
+            //ShowTickets.deployed()
+      //ShowTickets.at(contract_address)
+      ShowTickets.deployed().then(function(instance) {
       contract = instance;
-      return contract.checkin({from: buyer});
+      return contract.checkin({from: myAddr});
              }).then(
                   function(result) {
                    self.setStatus("Transaction complete! Please wait for block creation...");
-                   tickets.splice(index, 1);
-                   select.options.remove(index);
                   }).catch(
                           function(e) {
                               console.log(e);
